@@ -1,0 +1,12 @@
+# Python bytecode
+__pycache__/
+
+# Distribution / packaging
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Test data files
+testdata_*

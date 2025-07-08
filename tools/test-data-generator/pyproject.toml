@@ -1,0 +1,19 @@
+[project]
+name = "test-data-generator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["xlsxwriter>=3.1.0", "uuid>=1.30.0"]
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.402",
+    "ruff>=0.12.2",
+]
+
+[project.scripts]
+generate-testdata = "test_data_generator.cli:main"
