@@ -10,10 +10,7 @@ dependencies = ["xlsxwriter>=3.1.0", "uuid>=1.30.0"]
 package = true
 
 [dependency-groups]
-dev = [
-    "pyright>=1.1.402",
-    "ruff>=0.12.2",
-]
+dev = ["pyright>=1.1.402", "ruff>=0.12.2"]
 
 [project.scripts]
 generate-testdata = "test_data_generator.cli:main"

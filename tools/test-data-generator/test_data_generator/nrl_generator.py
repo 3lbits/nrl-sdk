@@ -173,7 +173,7 @@ def generate_random_data(
     ]
 
     # Define regions within NRL coverage area with UTM zones
-    # Western and central Norway (Bergen, Stavanger, Oslo, Trondheim etc.) uses UTM zone 32
+    # Western and central Norway (Bergen, Stavanger, Oslo, Trondheim etc.) uses UTM zone 32 
     # Eastern/northeastern Norway (near Swedish/Finnish borders) would use UTM zone 33
     # https://no.wikipedia.org/wiki/UTM-koordinater
     regions = {
