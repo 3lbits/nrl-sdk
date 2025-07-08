@@ -1,0 +1,234 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:5973"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [64810.64, 6729993.89, 25.2],
+            [64810.09, 6729984.53, 25.2],
+            [64803.56, 6729975.93, 25.2],
+            [64796.44, 6729975.56, 25.2],
+            [64810.64, 6729993.89, 25.2]
+          ]
+        ]
+      },
+      "properties": {
+        "featureType": "NrlFlate",
+        "status": "planlagtFjernet",
+        "komponentident": "3bed1c73-2a7e-44d9-a29d-61964a2c55d1",
+        "referanse": {
+          "kodesystemversjon": "2020-09",
+          "komponentkodesystem": "Banekart",
+          "komponentkodeverdi": "123456789"
+        },
+        "navn": "TestFlate",
+        "vertikalAvstand": 8.919,
+        "luftfartshindermerking": "fargemerking",
+        "luftfartshinderlyssetting": "lavintensitetTypeA",
+        "materiale": "trevirke",
+        "datafangstdato": "2021-04-27",
+        "kvalitet": {
+          "datafangstmetode": "dig",
+          "nøyaktighet": 230,
+          "datafangstmetodeHøyde": "gen",
+          "nøyaktighetHøyde": 50
+        },
+        "informasjon": "Dette er en test som viser hvordan informasjonen for et NrlFlate objekt kan registeres",
+        "flateType": "kontaktledning",
+        "verifisertRapporteringsnøyaktighet": "20230101_5-1",
+        "høydereferanse": "fot"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [64816.2, 6730060.61, 64],
+          [64795.33, 6730005.25, 17.3]
+        ]
+      },
+      "properties": {
+        "featureType": "NrlLuftspenn",
+        "status": "eksisterende",
+        "komponentident": "253C1510-7F91-4876-BE42-7A6259147D4D",
+        "referanse": {
+          "kodesystemversjon": "1234",
+          "komponentkodesystem": "NIS",
+          "komponentkodeverdi": "88884444"
+        },
+        "navn": "Høgspent fra A til B",
+        "vertikalAvstand": 73,
+        "luftfartshindermerking": "markør",
+        "materiale": "metall",
+        "datafangstdato": "1990-06-29",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 50,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 50
+        },
+        "luftspennType": "høgspent",
+        "verifisertRapporteringsnøyaktighet": "20230101_5-1",
+        "høydereferanse": "topp",
+        "informasjon": "Dette er en test som viser hvordan informasjonen for et NrlLuftspenn objekt kan registeres",
+        "anleggsbredde": 22,
+        "friseilingshøyde": 45.3,
+        "nrlMast": [
+          "a943ec34-3883-4200-823d-00ac42ca946e",
+          "5C6093D1-0737-44E7-8ED6-E17E00C9006D"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [64816.2, 6730160.61, 23],
+          [64795.33, 6730105.25, 23]
+        ]
+      },
+      "properties": {
+        "featureType": "NrlLinje",
+        "status": "eksisterende",
+        "komponentident": "d9d6eb32-1281-40fe-96fd-e063964eaa0b",
+        "referanse": {
+          "kodesystemversjon": "2021-04",
+          "komponentkodesystem": "Bruregisterer",
+          "komponentkodeverdi": "1234567890"
+        },
+        "navn": "TestLinje",
+        "vertikalAvstand": 63.1,
+        "luftfartshindermerking": "markør",
+        "luftfartshinderlyssetting": "lyssatt",
+        "materiale": "betong",
+        "datafangstdato": "2021-04-26",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 20,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 20
+        },
+        "linjeType": "bru",
+        "anleggsbredde": 17.9,
+        "verifisertRapporteringsnøyaktighet": "20230101_5-1",
+        "høydereferanse": "topp",
+        "informasjon": "Dette er en test som viser hvordan informasjonen for ei NrlLinje objekt kan registeres"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "coordinates": [64816.2, 6730060.61, 64.8],
+        "type": "Point"
+      },
+      "properties": {
+        "featureType": "NrlMast",
+        "status": "eksisterende",
+        "komponentident": "a943ec34-3883-4200-823d-00ac42ca946e",
+        "referanse": {
+          "kodesystemversjon": "1234",
+          "komponentkodesystem": "NIS",
+          "komponentkodeverdi": "33332222"
+        },
+        "navn": "Linje A til B nr. 123",
+        "vertikalAvstand": 20.1,
+        "luftfartshindermerking": "fargemerking",
+        "luftfartshinderlyssetting": "lavintensitetTypeA",
+        "materiale": "metall",
+        "datafangstdato": "1990-06-29",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 50,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 50
+        },
+        "mastType": "høgspentmast",
+        "horisontalAvstand": 4.75,
+        "verifisertRapporteringsnøyaktighet": "0",
+        "høydereferanse": "topp",
+        "informasjon": "Eksempel på registrering av NRL mast",
+        "nrlLuftspenn": ["253C1510-7F91-4876-BE42-7A6259147D4D"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "coordinates": [64795.33, 6730005.25, 17.3],
+        "type": "Point"
+      },
+      "properties": {
+        "featureType": "NrlMast",
+        "status": "eksisterende",
+        "komponentident": "5C6093D1-0737-44E7-8ED6-E17E00C9006D",
+        "referanse": {
+          "kodesystemversjon": "1234",
+          "komponentkodesystem": "NIS",
+          "komponentkodeverdi": "33332223"
+        },
+        "navn": "Linje A til B nr. 124",
+        "vertikalAvstand": 18.9,
+        "luftfartshindermerking": "fargemerking",
+        "luftfartshinderlyssetting": "lavintensitetTypeA",
+        "materiale": "metall",
+        "datafangstdato": "1990-06-29",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 50,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 50
+        },
+        "mastType": "høgspentmast",
+        "horisontalAvstand": 4.75,
+        "verifisertRapporteringsnøyaktighet": "20230101_5-1",
+        "høydereferanse": "topp",
+        "informasjon": "Eksempel på registrering av NRL mast",
+        "nrlLuftspenn": ["253C1510-7F91-4876-BE42-7A6259147D4D"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "coordinates": [64870.33, 6730056.25, 18.3],
+        "type": "Point"
+      },
+      "properties": {
+        "featureType": "NrlPunkt",
+        "status": "planlagtFjernet",
+        "komponentident": "a943ec34-3883-4200-823d-00ac42ca946f",
+        "referanse": {
+          "kodesystemversjon": "0",
+          "komponentkodesystem": "MMSI",
+          "komponentkodeverdi": "2573860235"
+        },
+        "navn": "TestPunkt_enkel",
+        "vertikalAvstand": 45.2,
+        "luftfartshindermerking": "fargemerking",
+        "luftfartshinderlyssetting": "lyssatt",
+        "materiale": "metall",
+        "datafangstdato": "2021-05-04",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 200,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 200
+        },
+        "punktType": "petroleumsinnretning",
+        "horisontalAvstand": 78.1,
+        "verifisertRapporteringsnøyaktighet": "0",
+        "høydereferanse": "fot",
+        "informasjon": "Dette er en test som viser hvordan informasjonen for et NrlPunkt objekt kan registeres."
+      }
+    }
+  ]
+}

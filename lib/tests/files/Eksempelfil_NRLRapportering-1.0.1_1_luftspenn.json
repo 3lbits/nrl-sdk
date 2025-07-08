@@ -1,0 +1,52 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:5973"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [64816.2, 6730060.61, 64],
+          [64795.33, 6730005.25, 17.3]
+        ]
+      },
+      "properties": {
+        "featureType": "NrlLuftspenn",
+        "status": "eksisterende",
+        "komponentident": "253C1510-7F91-4876-BE42-7A6259147D4D",
+        "referanse": {
+          "kodesystemversjon": "1234",
+          "komponentkodesystem": "NIS",
+          "komponentkodeverdi": "88884444"
+        },
+        "navn": "Høgspent fra A til B",
+        "vertikalAvstand": 73,
+        "luftfartshindermerking": "markør",
+        "materiale": "metall",
+        "datafangstdato": "1990-06-29",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 50,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 50
+        },
+        "luftspennType": "høgspent",
+        "verifisertRapporteringsnøyaktighet": "20230101_5-1",
+        "høydereferanse": "topp",
+        "informasjon": "Dette er en test som viser hvordan informasjonen for et NrlLuftspenn objekt kan registeres",
+        "anleggsbredde": 22,
+        "friseilingshøyde": 45.3,
+        "nrlMast": [
+          "a943ec34-3883-4200-823d-00ac42ca946e",
+          "5C6093D1-0737-44E7-8ED6-E17E00C9006D"
+        ]
+      }
+    }
+  ]
+}

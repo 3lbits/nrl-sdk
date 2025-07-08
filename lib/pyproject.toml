@@ -1,0 +1,71 @@
+[project]
+name = "lib"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["pydantic>=2.11.7"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[dependency-groups]
+dev = [
+    "anyio>=4.9.0",
+    "deptry>=0.23.0",
+    "pip-audit>=2.9.0",
+    "poethepoet>=0.34.0",
+    "pyright>=1.1.401",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-docker>=3.2.2",
+    "pytest-mock>=3.14.1",
+    "ruff>=0.11.11",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+# and then manually ignore annoying ones:
+ignore = [
+    #     "ANN401", # Any should be allowed
+    "D211",
+    "D213",
+    "COM812",
+    "D203",
+    "ISC001",
+    "PLC2401", # Allow non-ASCII characters
+]
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    # at least this three should be fine in tests:
+    "S101",    # asserts allowed in tests...
+    "ANN401",  # Any should be allowed
+    "BLE001",  # Catch blind exception in tests should be allowed
+    "PLR2004", # Magic values allowed in tests
+]
+
+[tool.ruff.lint.isort]
+# so it knows to group first-party stuff last
+known-first-party = ["src"]
+
+[tool.coverage.paths]
+source = ["src"]
+
+[tool.coverage.run]
+branch = true
+omit = ["tests/*"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+
+[tool.poe.tasks]
+format = "uv run ruff format"
+lint = "uv run ruff check --fix"
+pyright = "uv run pyright"
+check-deps = "uv run deptry ."
+audit = "uv run pip-audit"
+test = "uv run pytest -s --cov --cov-report=term-missing --cov-report=html"
+release = ["lint", "pyright", "check-deps", "audit", "test"]
