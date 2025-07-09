@@ -6,22 +6,18 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = ["pydantic>=2.11.7"]
 
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
-
 [dependency-groups]
 dev = [
     "anyio>=4.9.0",
     "deptry>=0.23.0",
     "pip-audit>=2.9.0",
     "poethepoet>=0.34.0",
-    "pyright>=1.1.401",
     "pytest>=8.3.5",
     "pytest-cov>=6.1.1",
     "pytest-docker>=3.2.2",
     "pytest-mock>=3.14.1",
     "ruff>=0.11.11",
+    "ty>=0.0.1a14",
 ]
 
 [tool.ruff.lint]
@@ -64,8 +60,8 @@ show_missing = true
 [tool.poe.tasks]
 format = "uv run ruff format"
 lint = "uv run ruff check --fix"
-pyright = "uv run pyright"
+check-types = "uv run ty check ."
 check-deps = "uv run deptry ."
 audit = "uv run pip-audit"
 test = "uv run pytest -s --cov --cov-report=term-missing --cov-report=html"
-release = ["lint", "pyright", "check-deps", "audit", "test"]
+release = ["lint", "check-types", "check-deps", "audit", "test"]
