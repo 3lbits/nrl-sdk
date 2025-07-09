@@ -1,0 +1,22 @@
+site_name: "nrl-sdk library"
+
+theme:
+  name: "readthedocs"
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["nrl_sdk_lib"]
+          options:
+            heading_level: 2
+            show_root_heading: true
+            show_source: false
+
+nav:
+  - index.md
+  - reference.md
+
+watch:
+  - nrl_sdk_lib

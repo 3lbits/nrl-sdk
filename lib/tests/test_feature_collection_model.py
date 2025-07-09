@@ -4,8 +4,9 @@ from uuid import UUID
 
 import pytest
 from anyio import open_file
+from pydantic import ValidationError
 
-from src.models.feature_collection import (
+from nrl_sdk_lib.models.feature_collection import (
     FeatureCollection,
     Hoydereferanse,
     KomponentReferanse,
@@ -39,8 +40,8 @@ async def test_feature_collection_model() -> None:
             feature_collection = FeatureCollection.model_validate_json(
                 feature_collection_json
             )
-        except Exception as e:
-            pytest.fail(f"Deserialization failed with error: {e}")
+        except ValidationError as e:
+            pytest.fail(f"Deserialization failed with errors: {e.errors()}")
 
         # Assert that the deserialized object is an instance of FeatureCollection
         assert isinstance(feature_collection, FeatureCollection)
@@ -114,8 +115,8 @@ async def test_feature_collection_model_luftspenn() -> None:  # noqa: PLR0915
             feature_collection = FeatureCollection.model_validate_json(
                 feature_collection_json
             )
-        except Exception as e:
-            pytest.fail(f"Deserialization failed with error: {e}")
+        except ValidationError as e:
+            pytest.fail(f"Deserialization failed with errors: {e.errors()}")
 
         # Assert that the deserialized object is an instance of FeatureCollection
         assert isinstance(feature_collection, FeatureCollection)
@@ -244,8 +245,7 @@ async def test_feature_collection_model_luftspenn() -> None:  # noqa: PLR0915
         # Assert that the informasjon contains "Dette er en test":
         assert feature_collection.features[0].properties.informasjon is not None
         assert (
-            "Dette er en test"
-            in feature_collection.features[0].properties.informasjon
+            "Dette er en test" in feature_collection.features[0].properties.informasjon
         )
         # Assert that høydereferanse is of type Hoydereferanse:
         assert (

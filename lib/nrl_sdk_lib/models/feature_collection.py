@@ -267,7 +267,24 @@ class Feature(Parent):
 
 
 class FeatureCollection(Parent):
-    """A FeatureCollection model."""
+    """A FeatureCollection model.
+
+    Example usage:
+    ```python
+    >>> from pydantic import ValidationError
+    >>> from nrl_sdk_lib.models import FeatureCollection
+    >>>
+    >>> testfile_path = "tests/files/Eksempelfil_NRLRapportering-1.0.1.json"
+    >>> with open(testfile_path) as file:
+    ...     data = file.read()
+    >>>
+    >>> try:
+    ...     feature_collection = FeatureCollection.model_validate_json(data)
+    ... except ValidationError as e:
+    ...     print(e.errors())
+
+    ```
+    """
 
     type: str
     crs: Crs
