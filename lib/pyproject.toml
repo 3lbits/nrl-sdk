@@ -68,4 +68,4 @@ audit = "uv run pip-audit"
 test = "uv run pytest --doctest-modules -s --cov --cov-report=term-missing --cov-report=html"
 create-docs = { cmd = "uv run mkdocs build" }
 serve-docs = { cmd = "uv run mkdocs serve" }
-release = ["lint", "check-types", "check-deps", "audit", "test", "create-docs"]
+release = ["lint", "check-types", "check-deps", "audit", "test"]

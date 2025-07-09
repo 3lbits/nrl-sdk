@@ -6,6 +6,11 @@ The nrl-sdk-lib provides models and code snippets for working with the NRL SDK. 
 
 To set up the development environment, you need to install the required dependencies:.
 ```bash
+uv sync
+```
+
+To upgrade the dependencies, you can run:
+```bash
 uv sync --upgrade
 ```
 
