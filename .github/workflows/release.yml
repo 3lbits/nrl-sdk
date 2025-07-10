@@ -30,4 +30,4 @@ jobs:
         run: |
           cd ${{ github.event.inputs.package }}
           uv build
-          uv publish --repository pypi --skip-existing
+          uv publish
