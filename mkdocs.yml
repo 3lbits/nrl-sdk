@@ -1,0 +1,40 @@
+site_name: "nrl-sdk"
+
+theme:
+  name: "material"
+  features:
+    - search.highlight
+    - content.code.copy
+  palette:
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+      primary: green
+      accent: deep purple
+    # Light Mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Light mode
+      primary: blue
+      accent: deep orange
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["nrl-sdk-lib/src"]
+          options:
+            heading_level: 2
+            show_root_heading: true
+            show_source: false
+
+nav:
+  - index.md
+  - reference.md
+
+watch:
+  - nrl-sdk-lib/src

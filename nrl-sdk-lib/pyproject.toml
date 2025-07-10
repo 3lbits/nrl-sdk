@@ -17,8 +17,6 @@ packages = ["src/nrl_sdk_lib"]
 dev = [
     "anyio>=4.9.0",
     "deptry>=0.23.0",
-    "mkdocs>=1.6.1",
-    "mkdocstrings[python]>=0.29.1",
     "pip-audit>=2.9.0",
     "poethepoet>=0.34.0",
     "pytest>=8.3.5",
@@ -73,6 +71,4 @@ check-types = "uv run ty check ."
 check-deps = "uv run deptry ."
 audit = "uv run pip-audit"
 test = "uv run pytest --doctest-modules -s --cov --cov-report=term-missing --cov-report=html"
-create-docs = { cmd = "uv run mkdocs build" }
-serve-docs = { cmd = "uv run mkdocs serve" }
 release = ["lint", "check-types", "check-deps", "audit", "test"]
