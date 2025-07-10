@@ -7,6 +7,9 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
 
+from .crs import Crs
+from .geometry import LineString, Point, Polygon
+
 
 class Parent(BaseModel):
     """A base model for all other models."""
@@ -18,52 +21,7 @@ class Parent(BaseModel):
     )
 
 
-class Geometry(Parent):
-    """A Geometry model."""
-
-    model_config = ConfigDict(
-        extra="forbid",  # Forbid extra fields
-    )
-
-    type: Literal["Point", "Polygon", "LineString"]
-
-
-class Point(Geometry):
-    """A Point geometry model."""
-
-    coordinates: list[float]
-
-
-class Polygon(Geometry):
-    """A Polygon geometry model."""
-
-    coordinates: list[list[list[float]]]
-
-
-class LineString(Geometry):
-    """A LineString geometry model."""
-
-    coordinates: list[list[float]]
-
-
-class CrsProperties(Parent):
-    """A CRS properties model."""
-
-    name: str
-
-
-class Crs(Parent):
-    """A CRS model."""
-
-    model_config = ConfigDict(
-        extra="forbid",  # Forbid extra fields
-    )
-
-    type: str
-    properties: CrsProperties
-
-
-class FeaturePropertyStatus(str, Enum):
+class FeatureStatus(str, Enum):
     """An enumeration for feature property statuses."""
 
     eksisterende = "eksisterende"
@@ -176,10 +134,10 @@ class Kvalitet(Parent):
 
 
 class FeatureProperty(Parent):
-    """A FeatureProperty model."""
+    """A FeatureProperty abstract base class model."""
 
     feature_type: Literal["NrlPunkt", "NrlMast", "NrlLuftspenn", "NrlLinje", "NrlFlate"]
-    status: FeaturePropertyStatus
+    status: FeatureStatus
     komponentident: UUID
     verifisert_rapporteringsnøyaktighet: Literal["20230101_5-1", "0"]
     referanse: KomponentReferanse | None = None
@@ -202,7 +160,25 @@ class FlateType(str, Enum):
 
 
 class NrlFlate(FeatureProperty):
-    """A Nrl Flate model."""
+    """A Nrl Flate model.
+
+    To create a NrlFlate:
+    ```python
+    >>> from uuid import UUID
+    >>>
+    >>> from nrl_sdk_lib.models import NrlFlate, FeatureStatus, FlateType
+    >>>
+    >>> nrl_flate = NrlFlate(
+    ... feature_type="NrlFlate",
+    ... status=FeatureStatus.eksisterende,
+    ... komponentident=UUID("12345678-1234-5678-1234-567812345678"),
+    ... verifisert_rapporteringsnøyaktighet="20230101_5-1",
+    ... flate_type=FlateType.trafostasjon,
+    ... )
+    >>> # Do something with nrl_flate, e.g. add it to a feature collection
+
+    ```
+    """
 
     flate_type: FlateType
 
@@ -261,7 +237,7 @@ class NrlPunkt(FeatureProperty):
 class Feature(Parent):
     """A Feature model."""
 
-    type: str
+    type: str = "Feature"
     geometry: Point | Polygon | LineString
     properties: NrlPunkt | NrlMast | NrlLuftspenn | NrlLinje | NrlFlate
 
@@ -269,7 +245,7 @@ class Feature(Parent):
 class FeatureCollection(Parent):
     """A FeatureCollection model.
 
-    Example usage:
+    How to create a FeatureCollection from a JSON file:
     ```python
     >>> from pydantic import ValidationError
     >>> from nrl_sdk_lib.models import FeatureCollection
@@ -284,9 +260,47 @@ class FeatureCollection(Parent):
     ...     print(e.errors())
 
     ```
+
+    How to create a FeatureCollection programmatically:
+    ```python
+    >>> from uuid import UUID
+    >>>
+    >>> from nrl_sdk_lib.models import (
+    ...     CrsProperties,
+    ...     Feature,
+    ...     Point,
+    ...     NrlFlate,
+    ...     FeatureStatus,
+    ...     FlateType,
+    ...     FeatureCollection,
+    ...     Crs,
+    ...     )
+    >>>
+    >>> nrl_flate = NrlFlate(
+    ...     feature_type="NrlFlate",
+    ...     status=FeatureStatus.eksisterende,
+    ...     komponentident=UUID("12345678-1234-5678-1234-567812345678"),
+    ...     verifisert_rapporteringsnøyaktighet="20230101_5-1",
+    ...     flate_type=FlateType.trafostasjon,
+    ... )
+    >>>
+    >>> feature = Feature(
+    ...     type="Feature",
+    ...     geometry=Point(type="Point", coordinates=[10.0, 59.0]),
+    ...     properties=nrl_flate,
+    ... )
+    >>>
+    >>> feature_collection = FeatureCollection(
+    ...     crs=Crs(properties=CrsProperties(name="EPSG:4326")),
+    ...     features=[feature],
+    ... )
+    >>>
+    >>> # Do something with feature_collection, e.g. serialize it to JSON:
+    >>> # print(feature_collection.model_dump_json(indent=2))
+    ```
+
     """
 
-    type: str
+    type: str = "FeatureCollection"
     crs: Crs
     features: list[Feature]
-    id: UUID | None = None

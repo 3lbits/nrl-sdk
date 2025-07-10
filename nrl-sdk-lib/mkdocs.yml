@@ -19,4 +19,4 @@ nav:
   - reference.md
 
 watch:
-  - nrl_sdk_lib
+  - src
