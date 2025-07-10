@@ -1,4 +1,4 @@
-# lib
+# nrl-sdk-lib
 
 The nrl-sdk-lib provides models and code snippets for working with the NRL SDK. It includes various models such as `FeatureCollection`, `Feature`, and `Geometry`, as well as utility functions for handling these models.
 

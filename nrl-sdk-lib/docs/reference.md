@@ -1,7 +1,7 @@
 # Reference
 
 
-::: models.feature_collection.FeatureCollection
+::: nrl_sdk_lib.models
     options:
       extra:
         include-members: true
