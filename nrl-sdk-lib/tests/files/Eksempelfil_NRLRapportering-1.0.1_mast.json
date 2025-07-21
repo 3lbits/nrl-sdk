@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:5973"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "coordinates": [64816.2, 6730060.61, 64.8],
+        "type": "Point"
+      },
+      "properties": {
+        "featureType": "NrlMast",
+        "status": "eksisterende",
+        "komponentident": "a943ec34-3883-4200-823d-00ac42ca946e",
+        "referanse": {
+          "kodesystemversjon": "1234",
+          "komponentkodesystem": "NIS",
+          "komponentkodeverdi": "33332222"
+        },
+        "navn": "Linje A til B nr. 123",
+        "vertikalAvstand": 20.1,
+        "luftfartshindermerking": "fargemerking",
+        "luftfartshinderlyssetting": "lavintensitetTypeA",
+        "materiale": "metall",
+        "datafangstdato": "1990-06-29",
+        "kvalitet": {
+          "datafangstmetode": "sat",
+          "nøyaktighet": 50,
+          "datafangstmetodeHøyde": "sat",
+          "nøyaktighetHøyde": 50
+        },
+        "mastType": "høgspentmast",
+        "horisontalAvstand": 4.75,
+        "verifisertRapporteringsnøyaktighet": "0",
+        "høydereferanse": "topp",
+        "informasjon": "Eksempel på registrering av NRL mast",
+        "nrlLuftspenn": ["253C1510-7F91-4876-BE42-7A6259147D4D"]
+      }
+    }
+  ]
+}
