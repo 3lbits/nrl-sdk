@@ -219,10 +219,27 @@ class NrlLuftspenn(FeatureProperty):
     nrl_mast: list[UUID] | None = None
 
 
+class MastType(str, Enum):
+    """An enumeration for mast types."""
+
+    annet = "annet"
+    belysningsmast = "belysningsmast"
+    ekommast = "ekommast"
+    høgspentmast = "høgspentmast"
+    kontaktledningsmast = "kontaktledningsmast"
+    lavspentmast = "lavspentmast"
+    transmisjonmast = "transmisjonmast"
+    regionalmast = "regionalmast"
+    målemast = "målemast"
+    radiomast = "radiomast"
+    taubanemast = "taubanemast"
+    telemast = "telemast"
+
+
 class NrlMast(FeatureProperty):
     """A Nrl Mast model."""
 
-    mast_type: str
+    mast_type: MastType
     horisontal_avstand: float | None = None
     nrl_luftspenn: list[UUID] | None = None
 
