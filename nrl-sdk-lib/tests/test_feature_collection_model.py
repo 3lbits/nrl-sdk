@@ -6,7 +6,7 @@ import pytest
 from anyio import open_file
 from pydantic import ValidationError
 
-from nrl_sdk_lib.models.feature_collection import (
+from nrl_sdk_lib.models import (
     FeatureCollection,
     Hoydereferanse,
     KomponentReferanse,
