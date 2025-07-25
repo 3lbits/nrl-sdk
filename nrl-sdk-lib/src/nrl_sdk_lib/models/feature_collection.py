@@ -27,7 +27,7 @@ class FeatureStatus(str, Enum):
     eksisterende = "eksisterende"
     fjernet = "fjernet"
     planlagt_fjernet = "planlagtFjernet"
-    planlagt_oppfort = "planlagtOppført"
+    planlagt_oppført = "planlagtOppført"
     erstattet = "erstattet"
 
 
@@ -35,7 +35,7 @@ class LuftfartsHinderMerking(str, Enum):
     """An enumeration for luftfartshindermerking."""
 
     fargermerking = "fargemerking"
-    markor = "markør"
+    markør = "markør"
 
 
 class LuftfartsHinderLyssetting(str, Enum):
@@ -43,9 +43,9 @@ class LuftfartsHinderLyssetting(str, Enum):
 
     belyst_med_flomlys = "belystMedFlomlys"
     blinkende_hvitt = "blinkendeHvitt"
-    blinkende_rodt = "blinkendeRødt"
+    blinkende_rødt = "blinkendeRødt"
     fast_hvitt = "fastHvitt"
-    fast_rodt = "fastRødt"
+    fast_rødt = "fastRødt"
     høyintensitet_type_a = "høyintensitetTypeA"
     høyintensitet_type_b = "høyintensitetTypeB"
     lavintensitet_type_a = "lavintensitetTypeA"
@@ -56,7 +56,7 @@ class LuftfartsHinderLyssetting(str, Enum):
     mellomintensitet_type_c = "mellomintensitetTypeC"
 
 
-class Hoydereferanse(str, Enum):
+class Høydereferanse(str, Enum):
     """An enumeration for height references."""
 
     fot = "fot"
@@ -149,7 +149,7 @@ class FeatureProperty(Parent):
     datafangstdato: str | None = None
     kvalitet: Kvalitet | None = None
     informasjon: str | None = None
-    høydereferanse: Hoydereferanse | None = None
+    høydereferanse: Høydereferanse | None = None
 
 
 class FlateType(str, Enum):
@@ -197,12 +197,12 @@ class LuftspennType(str, Enum):
     bardun = "bardun"
     gondolbane = "gondolbane"
     ekom = "ekom"
-    hogspent = "høgspent"
+    høgspent = "høgspent"
     kontaktledning = "kontaktledning"
     lavspent = "lavspent"
     transmisjon = "transmisjon"
     regional = "regional"
-    loypestreng = "løypestreng"
+    løypestreng = "løypestreng"
     skitrekk = "skitrekk"
     stolheis = "stolheis"
     taubane = "taubane"
