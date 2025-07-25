@@ -8,7 +8,7 @@ from pydantic import ValidationError
 
 from nrl_sdk_lib.models import (
     FeatureCollection,
-    Hoydereferanse,
+    Høydereferanse,  # noqa: PLC2403
     KomponentReferanse,
     Kvalitet,
     LineString,
@@ -211,7 +211,7 @@ async def test_feature_collection_model_luftspenn() -> None:  # noqa: PLR0915
         # Assert that the first feature's properties luftfartshindermerking is 'markør'
         assert (
             feature_collection.features[0].properties.luftfartshindermerking
-            == LuftfartsHinderMerking.markor
+            == LuftfartsHinderMerking.markør
         )
         # Assert that the type of materiale is Materiale:
         assert type(feature_collection.features[0].properties.materiale) is Materiale
@@ -243,15 +243,15 @@ async def test_feature_collection_model_luftspenn() -> None:  # noqa: PLR0915
         assert (
             "Dette er en test" in feature_collection.features[0].properties.informasjon
         )
-        # Assert that høydereferanse is of type Hoydereferanse:
+        # Assert that høydereferanse is of type Høydereferanse:
         assert (
             type(feature_collection.features[0].properties.høydereferanse)
-            is Hoydereferanse
+            is Høydereferanse
         )
         # Assert that the høydereferanse is "topp":
         assert (
             feature_collection.features[0].properties.høydereferanse
-            == Hoydereferanse.topp
+            == Høydereferanse.topp
         )
 
         # specific properties:
@@ -263,7 +263,7 @@ async def test_feature_collection_model_luftspenn() -> None:  # noqa: PLR0915
         # Assert that the luftspenn_type is "høgspent":
         assert (
             feature_collection.features[0].properties.luftspenn_type
-            == LuftspennType.hogspent
+            == LuftspennType.høgspent
         )
         # Assert that the anleggsbredde is 22:
         assert feature_collection.features[0].properties.anleggsbredde == 22
@@ -410,15 +410,15 @@ async def test_feature_collection_model_mast() -> None:  # noqa: PLR0915
             "Eksempel på registrering av NRL mast"
             in feature_collection.features[0].properties.informasjon
         )
-        # Assert that høydereferanse is of type Hoydereferanse:
+        # Assert that høydereferanse is of type Høydereferanse:
         assert (
             type(feature_collection.features[0].properties.høydereferanse)
-            is Hoydereferanse
+            is Høydereferanse
         )
         # Assert that the høydereferanse is "topp":
         assert (
             feature_collection.features[0].properties.høydereferanse
-            == Hoydereferanse.topp
+            == Høydereferanse.topp
         )
 
         # specific properties:

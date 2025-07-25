@@ -7,7 +7,7 @@ from .feature_collection import (
     FeatureCollection,
     FeatureStatus,
     FlateType,
-    Hoydereferanse,
+    Høydereferanse,  # noqa: PLC2403
     KomponentReferanse,
     Kvalitet,
     LuftfartsHinderLyssetting,
@@ -32,7 +32,7 @@ __all__ = [
     "FeatureCollection",
     "FeatureStatus",
     "FlateType",
-    "Hoydereferanse",
+    "Høydereferanse",
     "KomponentReferanse",
     "Kvalitet",
     "LineString",
