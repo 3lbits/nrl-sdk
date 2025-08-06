@@ -17,7 +17,14 @@ class Parent(BaseModel):
 
 
 class Geometry(Parent):
-    """A Geometry model."""
+    """A Geometry model.
+
+    The Geometry model serves as a base class for different geometry types such as Point, Polygon, and LineString.
+
+    Attributes:
+        type (Literal["Point", "Polygon", "LineString"]): The type of geometry
+
+    """
 
     model_config = ConfigDict(
         extra="forbid",  # Forbid extra fields
@@ -27,18 +34,40 @@ class Geometry(Parent):
 
 
 class Point(Geometry):
-    """A Point geometry model."""
+    """A Point geometry model.
+
+    The Point model represents a single point in a two-dimensional space.
+
+    Attributes:
+        coordinates (list[float]): A list of two floats representing the x and y coordinates of the point.
+
+    """
 
     coordinates: list[float]
 
 
 class Polygon(Geometry):
-    """A Polygon geometry model."""
+    """A Polygon geometry model.
+
+    The Polygon model represents a polygon defined by a list of linear rings, where each ring is a list of points.
+
+    Attributes:
+        coordinates (list[list[list[float]]]): A list of linear rings, where each ring is a list of points,
+            and each point is represented by a list of two floats (x, y).
+
+    """
 
     coordinates: list[list[list[float]]]
 
 
 class LineString(Geometry):
-    """A LineString geometry model."""
+    """A LineString geometry model.
+
+    The LineString model represents a sequence of points connected by straight lines.
+
+    Attributes:
+        coordinates (list[list[float]]): A list of points, where each point is represented by a list of two floats (x, y).
+
+    """
 
     coordinates: list[list[float]]

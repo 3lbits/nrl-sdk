@@ -23,6 +23,8 @@ from .feature_collection import (
     PunktType,
 )
 from .geometry import LineString, Point, Polygon
+from .job import Job, OperationType
+from .result import Result, ResultError
 
 __all__ = [
     "Crs",
@@ -33,6 +35,7 @@ __all__ = [
     "FeatureStatus",
     "FlateType",
     "Høydereferanse",
+    "Job",
     "KomponentReferanse",
     "Kvalitet",
     "LineString",
@@ -46,7 +49,10 @@ __all__ = [
     "NrlLuftspenn",
     "NrlMast",
     "NrlPunkt",
+    "OperationType",
     "Point",
     "Polygon",
     "PunktType",
+    "Result",
+    "ResultError",
 ]

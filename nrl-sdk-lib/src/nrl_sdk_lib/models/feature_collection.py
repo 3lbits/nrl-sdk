@@ -22,7 +22,18 @@ class Parent(BaseModel):
 
 
 class FeatureStatus(str, Enum):
-    """An enumeration for feature property statuses."""
+    """An enumeration for feature property statuses.
+
+    This enumeration defines the possible statuses for feature properties in the NRL.
+
+    Attributes:
+        eksisterende (str): Represents an existing feature.
+        fjernet (str): Represents a feature that has been removed.
+        planlagt_fjernet (str): Represents a feature that is planned to be removed.
+        planlagt_oppført (str): Represents a feature that is planned to be constructed.
+        erstattet (str): Represents a feature that has been replaced.
+
+    """
 
     eksisterende = "eksisterende"
     fjernet = "fjernet"
@@ -32,14 +43,41 @@ class FeatureStatus(str, Enum):
 
 
 class LuftfartsHinderMerking(str, Enum):
-    """An enumeration for luftfartshindermerking."""
+    """An enumeration for luftfartshindermerking.
+
+    This enumeration defines the possible markings for aviation obstacles.
+
+    Attributes:
+        fargermerking (str): Represents color marking.
+        markør (str): Represents a marker.
+
+    """
 
     fargermerking = "fargemerking"
     markør = "markør"
 
 
 class LuftfartsHinderLyssetting(str, Enum):
-    """An enumeration for luftfartshinderlyssetting."""
+    """An enumeration for luftfartshinderlyssetting.
+
+    This enumeration defines the possible lighting settings for aviation obstacles.
+
+    Attributes:
+        belyst_med_flomlys (str): Represents lighting with floodlights.
+        blinkende_hvitt (str): Represents blinking white lights.
+        blinkende_rødt (str): Represents blinking red lights.
+        fast_hvitt (str): Represents steady white lights.
+        fast_rødt (str): Represents steady red lights.
+        høyintensitet_type_a (str): Represents high-intensity type A lighting.
+        høyintensitet_type_b (str): Represents high-intensity type B lighting.
+        lavintensitet_type_a (str): Represents low-intensity type A lighting.
+        lavintensitet_type_b (str): Represents low-intensity type B lighting.
+        lyssatt (str): Represents illuminated features.
+        mellomintensitet_type_a (str): Represents medium-intensity type A lighting.
+        mellomintensitet_type_b (str): Represents medium-intensity type B lighting.
+        mellomintensitet_type_c (str): Represents medium-intensity type C lighting.
+
+    """
 
     belyst_med_flomlys = "belystMedFlomlys"
     blinkende_hvitt = "blinkendeHvitt"
@@ -57,7 +95,15 @@ class LuftfartsHinderLyssetting(str, Enum):
 
 
 class Høydereferanse(str, Enum):
-    """An enumeration for height references."""
+    """An enumeration for height references.
+
+    This enumeration defines the possible height references used in the NRL.
+
+    Attributes:
+        fot (str): Represents height at the bottom.
+        topp (str): Represents height at the top.
+
+    """
 
     fot = "fot"
     topp = "topp"
@@ -67,40 +113,98 @@ class PunktType(str, Enum):
     """An enumeration for punkt types."""
 
     annet = "annet"
+    """A generic point type."""
+
     bygning = "bygning"
+    """A point representing a building."""
+
     flaggstang = "flaggstang"
+    """A point representing a flagpole."""
+
     forankret_ballong = "forankretBallong"
+    """A point representing an anchored balloon."""
+
     fornøyelsesparkinnretning = "fornøyelsesparkinnretning"
+    """A point representing an amusement park attraction."""
+
     fyrtårn = "fyrtårn"
+    """A point representing a lighthouse."""
+
     hopptårn = "hopptårn"
+    """A point representing a ski jump tower."""
+
     kjøletårn = "kjøletårn"
+    """A point representing a cooling tower."""
+
     kontrolltårn = "kontrolltårn"
+    """A point representing a control tower."""
+
     kraftverk = "kraftverk"
+    """A point representing a power plant."""
+
     kran = "kran"
+    """A point representing a crane."""
+
     kuppel = "kuppel"
+    """A point representing a dome."""
+
     monument = "monument"
+    """A point representing a monument."""
+
     navigasjonshjelpemiddel = "navigasjonshjelpemiddel"
+    """A point representing a navigation aid."""
+
     petroleumsinnretning = "petroleumsinnretning"
+    """A point representing a petroleum installation."""
+
     pipe = "pipe"
+    """A point representing a chimney."""
+
     raffineri = "raffineri"
+    """A point representing a refinery."""
+
     silo = "silo"
+    """A point representing a silo."""
+
     sprengningstårn = "sprengningstårn"
+    """A point representing a blasting tower."""
+
     tank = "tank"
+    """A point representing a tank."""
+
     tårn = "tårn"
+    """A point representing a tower."""
+
     vanntårn = "vanntårn"
+    """A point representing a water tower."""
+
     vindturbin = "vindturbin"
+    """A point representing a wind turbine."""
 
 
 class Materiale(str, Enum):
     """An enumeration for materials."""
 
     annet = "annet"
+    """Generic material type."""
+
     betong = "betong"
+    """Concrete material."""
+
     glass = "glass"
+    """Glass material."""
+
     metall = "metall"
+    """Metal material."""
+
     murstein = "murstein"
+    """Brick material."""
+
     stein = "stein"
+    """Stone material."""
+
     trevirke = "trevirke"
+    """Wood material."""
 
 
 class DatafangsMetode(str, Enum):
@@ -117,7 +221,16 @@ class DatafangsMetode(str, Enum):
 
 
 class KomponentReferanse(Parent):
-    """A KomponentReferanse model."""
+    """A KomponentReferanse model.
+
+    The KomponentReferanse model represents a reference to a component in the NRL.
+
+    Attributes:
+        kodesystemversjon (str | None): Version of the code system.
+        komponentkodesystem (str | None): Code system for the component.
+        komponentkodeverdi (str | None): Value of the component code.
+
+    """
 
     kodesystemversjon: str | None = None
     komponentkodesystem: str | None = None
@@ -125,7 +238,15 @@ class KomponentReferanse(Parent):
 
 
 class Kvalitet(Parent):
-    """A Kvalitet model."""
+    """A Kvalitet model.
+
+    Attributes:
+        datafangstmetode (DatafangsMetode | None): Method of data capture.
+        nøyaktighet (float | None): Accuracy of the data capture.
+        datafangstmetode_høyde (DatafangsMetode | None): Method of data capture for height.
+        nøyaktighet_høyde (float | None): Accuracy of the data capture for height.
+
+    """
 
     datafangstmetode: DatafangsMetode | None = None
     nøyaktighet: float | None = None
@@ -134,7 +255,25 @@ class Kvalitet(Parent):
 
 
 class FeatureProperty(Parent):
-    """A FeatureProperty abstract base class model."""
+    """A FeatureProperty abstract base class model.
+
+    Attributes:
+        feature_type (Literal): Type of the feature, e.g., "NrlPunkt
+        status (FeatureStatus): Status of the feature.
+        komponentident (UUID): Unique identifier for the component.
+        verifisert_rapporteringsnøyaktighet (Literal): Verified reporting accuracy.
+        referanse (KomponentReferanse | None): Reference to the component, if applicable.
+        navn (str | None): Name of the feature, if applicable.
+        vertikal_avstand (float | None): Vertical distance, if applicable.
+        luftfartshindermerking (LuftfartsHinderMerking | None): Aviation obstacle marking, if applicable.
+        luftfartshinderlyssetting (LuftfartsHinderLyssetting | None): Aviation obstacle lighting, if applicable.
+        materiale (Materiale | None): Material of the feature, if applicable.
+        datafangstdato (str | None): Date of data capture, if applicable.
+        kvalitet (Kvalitet | None): Quality of the feature, if applicable.
+        informasjon (str | None): Additional information about the feature, if applicable.
+        høydereferanse (Høydereferanse | None): Height reference, if applicable.
+
+    """
 
     feature_type: Literal["NrlPunkt", "NrlMast", "NrlLuftspenn", "NrlLinje", "NrlFlate"]
     status: FeatureStatus
@@ -156,7 +295,10 @@ class FlateType(str, Enum):
     """An enumeration for flate types."""
 
     kontaktledning = "kontaktledning"
+    """Contact line type, typically used for overhead power lines."""
+
     trafostasjon = "trafostasjon"
+    """Transformer station type, typically used for electrical substations."""
 
 
 class NrlFlate(FeatureProperty):
@@ -184,7 +326,13 @@ class NrlFlate(FeatureProperty):
 
 
 class NrlLinje(FeatureProperty):
-    """A Nrl Linje model."""
+    """A Nrl Linje model.
+
+    Attributes:
+        linje_type (str): Type of the line, e.g., "høgspent
+        anleggsbredde (float | None): Width of the facility, if applicable.
+
+    """
 
     linje_type: str
     anleggsbredde: float | None = None
@@ -194,24 +342,62 @@ class LuftspennType(str, Enum):
     """An enumeration for luftspenn types."""
 
     annet = "annet"
+    """Generic type for unspecified air spans."""
+
     bardun = "bardun"
+    """Type for guyed spans, typically used for supporting structures."""
+
     gondolbane = "gondolbane"
+    """Type for gondola cable cars, typically used in ski resorts or mountainous areas."""
+
     ekom = "ekom"
+    """Type for communication lines, typically used for telecommunication or data transmission."""
+
     høgspent = "høgspent"
+    """Type for high-voltage power lines, typically used for electrical transmission."""
+
     kontaktledning = "kontaktledning"
+    """Type for contact lines, typically used in railways or tram systems."""
+
     lavspent = "lavspent"
+    """Type for low-voltage power lines, typically used for local electrical distribution."""
+
     transmisjon = "transmisjon"
+    """Type for transmission lines, typically used for long-distance electrical transmission."""
+
     regional = "regional"
+    """Type for regional lines, typically used for medium-voltage electrical distribution."""
+
     løypestreng = "løypestreng"
+    """Type for ski lift lines, typically used in ski resorts."""
+
     skitrekk = "skitrekk"
+    """Type for ski tow lines, typically used in ski resorts."""
+
     stolheis = "stolheis"
+    """Type for chairlift lines, typically used in ski resorts."""
+
     taubane = "taubane"
+    """Type for cable car lines, typically used in ski resorts or mountainous areas."""
+
     vaier = "vaier"
+    """Type for cable lines, typically used for various purposes including ski lifts and gondolas."""
+
     zipline = "zipline"
+    """Type for zip lines, typically used for recreational activities."""
 
 
 class NrlLuftspenn(FeatureProperty):
-    """A Nrl Luftspenn model."""
+    """A Nrl Luftspenn model.
+
+    Attributes:
+        luftspenn_type (LuftspennType): Type of the air span.
+        anleggsbredde (float | None): Width of the facility, if applicable.
+        friseilingshøyde (float | None): Height of the free span,
+            if applicable.
+        nrl_mast (list[UUID] | None): List of UUIDs for associated Nrl Mast, if applicable.
+
+    """
 
     luftspenn_type: LuftspennType
     anleggsbredde: float | None = None
@@ -223,21 +409,51 @@ class MastType(str, Enum):
     """An enumeration for mast types."""
 
     annet = "annet"
+    """Generic type for unspecified masts."""
+
     belysningsmast = "belysningsmast"
+    """Type for lighting masts, typically used for street or area lighting."""
+
     ekommast = "ekommast"
+    """Type for communication masts, typically used for telecommunication or data transmission."""
+
     høgspentmast = "høgspentmast"
+    """Type for high-voltage masts, typically used for electrical transmission."""
+
     kontaktledningsmast = "kontaktledningsmast"
+    """Type for contact line masts, typically used in railways or tram systems."""
+
     lavspentmast = "lavspentmast"
+    """Type for low-voltage masts, typically used for local electrical distribution."""
+
     transmisjonmast = "transmisjonmast"
+    """Type for transmission masts, typically used for long-distance electrical transmission."""
+
     regionalmast = "regionalmast"
+    """Type for regional masts, typically used for medium-voltage electrical distribution."""
+
     målemast = "målemast"
+    """Type for measurement masts, typically used for environmental or structural monitoring."""
+
     radiomast = "radiomast"
+    """Type for radio masts, typically used for broadcasting or communication."""
+
     taubanemast = "taubanemast"
+    """Type for cable car masts, typically used in ski resorts or mountainous areas."""
+
     telemast = "telemast"
+    """Type for telecommunication masts, typically used for mobile or fixed-line communication."""
 
 
 class NrlMast(FeatureProperty):
-    """A Nrl Mast model."""
+    """A Nrl Mast model.
+
+    Attributes:
+        mast_type (MastType): Type of the mast.
+        horisontal_avstand (float | None): Horizontal distance to the next mast, if applicable.
+        nrl_luftspenn (list[UUID] | None): List of UUIDs for associated Nrl Luftspenn, if applicable.
+
+    """
 
     mast_type: MastType
     horisontal_avstand: float | None = None
@@ -245,14 +461,27 @@ class NrlMast(FeatureProperty):
 
 
 class NrlPunkt(FeatureProperty):
-    """A Nrl Punkt model."""
+    """A Nrl Punkt model.
+
+    Attributes:
+        punkt_type (PunktType): Type of the point.
+        horisontal_avstand (float | None): Horizontal distance to the next point, if applicable.
+
+    """
 
     punkt_type: PunktType
     horisontal_avstand: float | None = None
 
 
 class Feature(Parent):
-    """A Feature model."""
+    """A Feature model.
+
+    Attributes:
+        type (str): The type of the feature, typically "Feature".
+        geometry (Point | Polygon | LineString): The geometry of the feature, which can be
+            a Point, Polygon, or LineString.
+
+    """
 
     type: str = "Feature"
     geometry: Point | Polygon | LineString
@@ -261,6 +490,8 @@ class Feature(Parent):
 
 class FeatureCollection(Parent):
     """A FeatureCollection model.
+
+    The FeatureCollection model represents a collection of geographic features with associated geometries and properties.
 
     How to create a FeatureCollection from a JSON file:
     ```python
@@ -315,6 +546,11 @@ class FeatureCollection(Parent):
     >>> # Do something with feature_collection, e.g. serialize it to JSON:
     >>> # print(feature_collection.model_dump_json(indent=2))
     ```
+
+    Attributes:
+        type (str): The type of the collection, typically "FeatureCollection".
+        crs (Crs): The coordinate reference system of the features in the collection.
+        features (list[Feature]): A list of features in the collection, each with its own geometry and properties.
 
     """
 

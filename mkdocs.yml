@@ -5,6 +5,7 @@ theme:
   features:
     - search.highlight
     - content.code.copy
+    - toc.follow
   palette:
     # Dark Mode
     - scheme: slate
@@ -23,6 +24,7 @@ theme:
 
 plugins:
   - search
+  - open-in-new-tab
   - mkdocstrings:
       handlers:
         python:
@@ -30,7 +32,13 @@ plugins:
           options:
             heading_level: 2
             show_root_heading: true
-            show_source: false
+            show_source: true
+            inherited_members: true
+            members_order: source
+            docstring_style: google
+            extensions:
+              - griffe_fieldz
+              - griffe_pydantic: { schema: true }
 
 nav:
   - index.md
