@@ -15,13 +15,28 @@ class Parent(BaseModel):
 
 
 class CrsProperties(Parent):
-    """A CRS properties model."""
+    """A CRS properties model.
+
+    The CrsProperties model represents the properties of a Coordinate Reference System (CRS).
+
+    Attributes:
+        name (str): The name of the CRS.
+
+    """
 
     name: str
 
 
 class Crs(Parent):
-    """A CRS model."""
+    """A CRS model.
+
+    The Crs model represents a Coordinate Reference System (CRS) with its properties.
+
+    Attributes:
+        type (str): The type of CRS, typically "name".
+        properties (CrsProperties): The properties of the CRS.
+
+    """
 
     model_config = ConfigDict(
         extra="forbid",  # Forbid extra fields

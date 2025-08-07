@@ -18,9 +18,3 @@ To run the pipeline, you can use the following command:
 ```bash
 uv run poe release
 ```
-
-To see the docs, run:
-```bash
-uv run poe create-docs
-uv run poe serve-docs
-```
