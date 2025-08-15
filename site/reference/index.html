@@ -7585,8 +7585,7 @@ a Point, Polygon, or LineString.</p>
 
               <details class="quote">
                 <summary>Source code in <code>nrl-sdk-lib/src/nrl_sdk_lib/models/job.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
-<span class="normal">12</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
@@ -7595,7 +7594,8 @@ a Point, Polygon, or LineString.</p>
 <span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OperationType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OperationType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum for operation types.</span>
 
 <span class="sd">    This enum defines the types of operations that can be performed on a job.</span>
@@ -7816,8 +7816,7 @@ a Point, Polygon, or LineString.</p>
 
               <details class="quote">
                 <summary>Source code in <code>nrl-sdk-lib/src/nrl_sdk_lib/models/job.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
@@ -7848,7 +7847,8 @@ a Point, Polygon, or LineString.</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Job</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Job</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A job model.</span>
 
 <span class="sd">    The job model represents a processing task that can be validated or reported.</span>
@@ -7872,7 +7872,6 @@ a Point, Polygon, or LineString.</p>
         <span class="n">populate_by_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span>
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">operation</span><span class="p">:</span> <span class="n">OperationType</span>
@@ -7881,6 +7880,7 @@ a Point, Polygon, or LineString.</p>
     <span class="n">created_by_user</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">created_for_org</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">completed_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -7990,7 +7990,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.ResultError.komponent_id">komponent_id</span></code></td>
             <td>
-                  <code><span title="uuid.UUID">UUID</span> | None</code>
+                  <code><span title="UUID">UUID</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8001,7 +8001,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.ResultError.id">id</span></code></td>
             <td>
-                  <code><span title="uuid.UUID">UUID</span> | None</code>
+                  <code><span title="UUID">UUID</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8037,7 +8037,8 @@ a Point, Polygon, or LineString.</p>
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ResultError</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">28</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ResultError</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A result error model.</span>
 
 <span class="sd">    The result error model represents an error encountered during a validation or reporting process.</span>
@@ -8056,7 +8057,8 @@ a Point, Polygon, or LineString.</p>
     <span class="p">)</span>
 
     <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">komponent_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">komponent_id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -8137,7 +8139,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.Result.job_id">job_id</span></code></td>
             <td>
-                  <code><span title="uuid.UUID">UUID</span></code>
+                  <code><span title="UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8176,7 +8178,7 @@ or an empty list if there are no errors.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.Result.id">id</span></code></td>
             <td>
-                  <code><span title="uuid.UUID">UUID</span> | None</code>
+                  <code><span title="UUID">UUID</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8193,8 +8195,7 @@ or an empty list if there are no errors.</p>
 
               <details class="quote">
                 <summary>Source code in <code>nrl-sdk-lib/src/nrl_sdk_lib/models/result.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
@@ -8220,7 +8221,8 @@ or an empty list if there are no errors.</p>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A result model.</span>
 
 <span class="sd">    The result model represents the outcome of a validation or reporting process.</span>
@@ -8244,10 +8246,10 @@ or an empty list if there are no errors.</p>
 
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">stage</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Should be enum.</span>
-    <span class="n">job_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">job_id</span><span class="p">:</span> <span class="n">UUID4</span>
     <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ResultError</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
