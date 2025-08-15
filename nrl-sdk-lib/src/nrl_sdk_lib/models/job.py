@@ -2,8 +2,9 @@
 
 from datetime import datetime
 from enum import Enum
+from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 from pydantic.types import UUID4
 
@@ -45,7 +46,6 @@ class Job(BaseModel):
         populate_by_name=True,
     )
 
-    id: UUID4
     status: str
     content_type: str
     operation: OperationType
@@ -54,3 +54,4 @@ class Job(BaseModel):
     created_by_user: str
     created_for_org: str
     completed_at: datetime | None = None
+    id: UUID4 | None = Field(default_factory=uuid4)
