@@ -1,8 +1,8 @@
 """Module for response message model."""
 
-from uuid import uuid4
+from uuid import UUID, uuid4
 
-from pydantic import UUID4, BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
 
@@ -25,8 +25,8 @@ class ResultError(BaseModel):
     )
 
     reason: str
-    komponent_id: UUID4 | None = None
-    id: UUID4 | None = Field(default_factory=uuid4)
+    komponent_id: UUID | None = None
+    id: UUID | None = Field(default_factory=uuid4)
 
 
 class Result(BaseModel):
@@ -53,7 +53,7 @@ class Result(BaseModel):
 
     status: str
     stage: int  # Should be enum.
-    job_id: UUID4
+    job_id: UUID
     type: str | None = None
     errors: list[ResultError] | None = Field(default_factory=list)
-    id: UUID4 | None = Field(default_factory=uuid4)
+    id: UUID | None = Field(default_factory=uuid4)
