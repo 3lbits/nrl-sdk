@@ -225,12 +225,21 @@ async def test_feature_collection_model_luftspenn() -> None:  # noqa: PLR0915
         assert (
             feature_collection.features[0].properties.kvalitet.datafangstmetode == "sat"
         )
+        # Assert that the nøyaktighet of kvalitet is an int:
+        assert (
+            type(feature_collection.features[0].properties.kvalitet.nøyaktighet) is int
+        )
         # Assert that the nøyaktighet of kvalitet is 50:
         assert feature_collection.features[0].properties.kvalitet.nøyaktighet == 50
         # Assert that the datafangstmetodeHøyde of kvalitet is "sat":
         assert (
             feature_collection.features[0].properties.kvalitet.datafangstmetode_høyde
             == "sat"
+        )
+        # Assert that the nøyaktighet_høyde is an int:
+        assert (
+            type(feature_collection.features[0].properties.kvalitet.nøyaktighet_høyde)
+            is int
         )
         # Assert that the nøyaktighet_høyde of kvalitet is 50:
         assert (
@@ -390,6 +399,10 @@ async def test_feature_collection_model_mast() -> None:  # noqa: PLR0915
         # Assert that the datafangstmetode of kvalitet is "sat":
         assert (
             feature_collection.features[0].properties.kvalitet.datafangstmetode == "sat"
+        )
+        # Assert that the nøyaktighet of kvalitet is an int:
+        assert (
+            type(feature_collection.features[0].properties.kvalitet.nøyaktighet) is int
         )
         # Assert that the nøyaktighet of kvalitet is 50:
         assert feature_collection.features[0].properties.kvalitet.nøyaktighet == 50
