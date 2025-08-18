@@ -30,6 +30,6 @@ jobs:
           restore-keys: |
             mkdocs-material-
 
-      - run: pip install mkdocs-material mkdocstrings[python] mkdocs-open-in-new-tab
+      - run: pip install mkdocs-material mkdocstrings[python] mkdocs-open-in-new-tab griffe-fieldz griffe-pydantic
 
       - run: mkdocs gh-deploy --force
