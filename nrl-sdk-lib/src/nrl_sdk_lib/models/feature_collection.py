@@ -242,16 +242,16 @@ class Kvalitet(Parent):
 
     Attributes:
         datafangstmetode (DatafangsMetode | None): Method of data capture.
-        nøyaktighet (float | None): Accuracy of the data capture.
+        nøyaktighet (int | None): Accuracy of the data capture.
         datafangstmetode_høyde (DatafangsMetode | None): Method of data capture for height.
-        nøyaktighet_høyde (float | None): Accuracy of the data capture for height.
+        nøyaktighet_høyde (int | None): Accuracy of the data capture for height.
 
     """
 
     datafangstmetode: DatafangsMetode | None = None
-    nøyaktighet: float | None = None
+    nøyaktighet: int | None = None
     datafangstmetode_høyde: DatafangsMetode | None = None
-    nøyaktighet_høyde: float | None = None
+    nøyaktighet_høyde: int | None = None
 
 
 class FeatureProperty(Parent):
