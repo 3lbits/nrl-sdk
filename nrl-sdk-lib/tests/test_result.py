@@ -33,6 +33,7 @@ async def test_result_model_without_errors() -> None:
     assert result.errors == []
     assert result.id == UUID("764eff66-2b4b-4283-819f-c7f7cd245a13")
 
+
 @pytest.mark.anyio
 async def test_result_model_with_errors() -> None:
     """Should create a valid result object with errors."""
@@ -49,7 +50,7 @@ async def test_result_model_with_errors() -> None:
             {
                 "reason": "Missing required field",
                 "komponent_id": "4e2baa5f-80ea-4376-acbd-095054825d11",
-            }
+            },
         ],
         "id": "1479de31-ed05-4461-8333-becd76a2254a",
     }
