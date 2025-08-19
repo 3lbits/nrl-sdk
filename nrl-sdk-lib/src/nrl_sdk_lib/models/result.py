@@ -1,5 +1,6 @@
 """Module for response message model."""
 
+from enum import Enum
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -29,6 +30,55 @@ class ResultError(BaseModel):
     id: UUID | None = Field(default_factory=uuid4)
 
 
+class ResultStatus(str, Enum):
+    """Enumeration for result statuses.
+
+    This enum defines the possible statuses for a result, such as "success" or "failure".
+
+    Attributes:
+        SUCCESS (str): Indicates a successful result.
+        FAILURE (str): Indicates a failed result.
+
+    """
+
+    SUCCESS = "success"
+    FAILURE = "failure"
+
+
+class ResultType(str, Enum):
+    """Enumeration for result types.
+
+    This enum defines the possible types of results, such as "validation" or "reporting".
+
+    Attributes:
+        STRUCTURE_VALIDATION_ERRORS (str): Indicates errors related to structure validation.
+        VALIDATION_EXCEPTION (str): Indicates a validation exception.
+
+    """
+
+    STRUCTURE_VALIDATION_ERRORS = "StructureValidationErrors"
+    VALIDATION_EXCEPTION = "ValidationException"
+
+
+class ResultStage(int, Enum):
+    """Enumeration for result stages.
+
+    This enum defines the possible stages of validation errors.
+
+    Attributes:
+        STRUCTURAL (int): Represents the structural validation stage.
+        OWNERSHIP (int): Represents the ownership validation stage.
+        BASIC_VALUE_VALIDATION (int): Represents the basic value validation stage.
+        ADVANCED_VALUE_VALIDATION (int): Represents the advanced value validation stage.
+
+    """
+
+    STRUCTURAL = 1
+    OWNERSHIP = 2
+    BASIC_VALUE_VALIDATION = 3
+    ADVANCED_VALUE_VALIDATION = 4
+
+
 class Result(BaseModel):
     """A result model.
 
@@ -51,9 +101,9 @@ class Result(BaseModel):
         populate_by_name=True,
     )
 
-    status: str
-    stage: int  # Should be enum.
+    status: ResultStatus
     job_id: UUID
-    type: str | None = None
+    type: ResultType | None = None
+    stage: ResultStage | None = None
     errors: list[ResultError] | None = Field(default_factory=list)
     id: UUID | None = Field(default_factory=uuid4)

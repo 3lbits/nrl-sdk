@@ -24,7 +24,7 @@ from .feature_collection import (
 )
 from .geometry import LineString, Point, Polygon
 from .job import Job, OperationType
-from .result import Result, ResultError
+from .result import Result, ResultError, ResultStage, ResultStatus, ResultType
 
 __all__ = [
     "Crs",
@@ -55,4 +55,7 @@ __all__ = [
     "PunktType",
     "Result",
     "ResultError",
+    "ResultStage",
+    "ResultStatus",
+    "ResultType",
 ]

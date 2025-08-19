@@ -37,7 +37,7 @@ async def test_job_model_with_id() -> None:
     assert job.created_at == datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC)
     assert job.created_by_user == "testuser"
     assert job.created_for_org == "testorg"
-    assert job.completed_at is None
+    assert job.finished_at is None
 
 
 @pytest.mark.anyio
@@ -63,4 +63,4 @@ async def test_job_model_without_id() -> None:
     assert job.created_at == datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC)
     assert job.created_by_user == "testuser"
     assert job.created_for_org == "testorg"
-    assert job.completed_at is None
+    assert job.finished_at is None

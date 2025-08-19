@@ -21,6 +21,25 @@ class OperationType(str, Enum):
     """Operation for reporting data."""
 
 
+class StatusType(str, Enum):
+    """Enum for job status types.
+
+    This enum defines the possible statuses for a job.
+    """
+
+    PENDING = "pending"
+    """Job is pending and has not yet started."""
+
+    IN_PROGRESS = "in_progress"
+    """Job is currently being processed."""
+
+    COMPLETED = "completed"
+    """Job has been completed successfully."""
+
+    FAILED = "failed"
+    """Job has failed during processing."""
+
+
 class Job(BaseModel):
     """A job model.
 
@@ -28,14 +47,14 @@ class Job(BaseModel):
 
     Attributes:
         id (UUID): Unique identifier for the job.
-        status (str): Current status of the job.
+        status (StatusType): Current status of the job.
         content_type (str): Type of content being processed in the job.
         operation (OperationType): Type of operation being performed in the job.
         data_id (UUID): Identifier for the data associated with the job.
         created_at (datetime): Timestamp when the job was created.
-        created_by_user (str): Username of the user who created the job.
         created_for_org (str): Organization for which the job was created.
-        completed_at (datetime | None): Timestamp when the job was completed, if applicable.
+        created_by_user (str): Username of the user who created the job.
+        finished_at (datetime | None): Timestamp when the job finished.
 
     """
 
@@ -45,12 +64,12 @@ class Job(BaseModel):
         populate_by_name=True,
     )
 
-    status: str
+    status: StatusType
     content_type: str
     operation: OperationType
     data_id: UUID
     created_at: datetime
-    created_by_user: str
     created_for_org: str
-    completed_at: datetime | None = None
+    created_by_user: str | None = None
+    finished_at: datetime | None = None
     id: UUID | None = Field(default_factory=uuid4)
