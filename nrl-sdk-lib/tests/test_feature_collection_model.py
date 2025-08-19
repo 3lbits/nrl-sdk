@@ -7,7 +7,12 @@ from anyio import open_file
 from pydantic import ValidationError
 
 from nrl_sdk_lib.models import (
+    Crs,
+    CrsProperties,
+    Feature,
     FeatureCollection,
+    FeatureStatus,
+    FlateType,
     Høydereferanse,  # noqa: PLC2403
     KomponentReferanse,
     Kvalitet,
@@ -451,3 +456,47 @@ async def test_feature_collection_model_mast() -> None:  # noqa: PLR0915
         assert isinstance(
             feature_collection.features[0].properties.nrl_luftspenn[0], UUID
         )
+
+
+@pytest.mark.anyio
+async def test_feature_collection_serialize() -> None:
+    """Object should deserialize to valid json.
+
+    Propoerty names should be in camleCase,
+    excluding properties where value is None.
+    """
+    nrl_flate = NrlFlate(
+        feature_type="NrlFlate",
+        status=FeatureStatus.eksisterende,
+        komponentident=UUID("12345678-1234-5678-1234-567812345678"),
+        verifisert_rapporteringsnøyaktighet="20230101_5-1",
+        flate_type=FlateType.trafostasjon,
+        navn=None,
+    )
+
+    feature = Feature(
+        type="Feature",
+        geometry=Point(type="Point", coordinates=[10.0, 59.0]),
+        properties=nrl_flate,
+    )
+
+    feature_collection = FeatureCollection(
+        crs=Crs(properties=CrsProperties(name="EPSG:4326")),
+        features=[feature],
+    )
+    serialized_json = await feature_collection.serialize()
+
+    assert isinstance(serialized_json, str), (
+        f"Serialized JSON should be a string: {type(serialized_json)}"
+    )
+    # property names should be in camelCase. Checking some of them:
+    assert '"featureType"' in serialized_json, (
+        "Serialized JSON should contain 'featureType' in camelCase"
+    )
+    assert '"flateType"' in serialized_json, (
+        "Serialized JSON should contain 'flateType' in camelCase"
+    )
+    # navn should not be present since it is None:
+    assert '"navn"' not in serialized_json, (
+        "Serialized JSON should not contain 'navn' since it is None"
+    )
