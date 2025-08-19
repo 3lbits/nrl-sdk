@@ -1161,6 +1161,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="FeatureCollection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nrl_sdk_lib.models.feature_collection.FeatureCollection.serialize" class="md-nav__link">
+    <span class="md-ellipsis">
+      serialize
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -2151,6 +2166,21 @@
       FeatureCollection
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="FeatureCollection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nrl_sdk_lib.models.feature_collection.FeatureCollection.serialize" class="md-nav__link">
+    <span class="md-ellipsis">
+      serialize
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -5096,7 +5126,7 @@ and each point is represented by a list of two floats (x, y).</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.feature_collection.Kvalitet.nøyaktighet">nøyaktighet</span></code></td>
             <td>
-                  <code><span title="float">float</span> | None</code>
+                  <code><span title="int">int</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5118,7 +5148,7 @@ and each point is represented by a list of two floats (x, y).</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.feature_collection.Kvalitet.nøyaktighet_høyde">nøyaktighet_høyde</span></code></td>
             <td>
-                  <code><span title="float">float</span> | None</code>
+                  <code><span title="int">int</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5154,16 +5184,16 @@ and each point is represented by a list of two floats (x, y).</p>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        datafangstmetode (DatafangsMetode | None): Method of data capture.</span>
-<span class="sd">        nøyaktighet (float | None): Accuracy of the data capture.</span>
+<span class="sd">        nøyaktighet (int | None): Accuracy of the data capture.</span>
 <span class="sd">        datafangstmetode_høyde (DatafangsMetode | None): Method of data capture for height.</span>
-<span class="sd">        nøyaktighet_høyde (float | None): Accuracy of the data capture for height.</span>
+<span class="sd">        nøyaktighet_høyde (int | None): Accuracy of the data capture for height.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">datafangstmetode</span><span class="p">:</span> <span class="n">DatafangsMetode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">nøyaktighet</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">nøyaktighet</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">datafangstmetode_høyde</span><span class="p">:</span> <span class="n">DatafangsMetode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">nøyaktighet_høyde</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">nøyaktighet_høyde</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -7293,7 +7323,7 @@ a Point, Polygon, or LineString.</p>
 ... )
 &gt;&gt;&gt;
 &gt;&gt;&gt; # Do something with feature_collection, e.g. serialize it to JSON:
-&gt;&gt;&gt; # print(feature_collection.model_dump_json(indent=2))
+&gt;&gt;&gt; # print(feature_collection.serialize())
 </code></pre>
 
 
@@ -7350,6 +7380,31 @@ a Point, Polygon, or LineString.</p>
               </div>
             </td>
           </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Methods:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="serialize()
+
+  
+      async
+   (nrl_sdk_lib.models.feature_collection.FeatureCollection.serialize)" href="#nrl_sdk_lib.models.feature_collection.FeatureCollection.serialize">serialize</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Converts the FeatureCollection instance to a JSON string.</p>
+                </div>
+              </td>
+            </tr>
       </tbody>
     </table>
 
@@ -7427,7 +7482,19 @@ a Point, Polygon, or LineString.</p>
 <span class="normal">556</span>
 <span class="normal">557</span>
 <span class="normal">558</span>
-<span class="normal">559</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FeatureCollection</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FeatureCollection</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A FeatureCollection model.</span>
 
 <span class="sd">    The FeatureCollection model represents a collection of geographic features with associated geometries and properties.</span>
@@ -7483,7 +7550,7 @@ a Point, Polygon, or LineString.</p>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; # Do something with feature_collection, e.g. serialize it to JSON:</span>
-<span class="sd">    &gt;&gt;&gt; # print(feature_collection.model_dump_json(indent=2))</span>
+<span class="sd">    &gt;&gt;&gt; # print(feature_collection.serialize())</span>
 <span class="sd">    ```</span>
 
 <span class="sd">    Attributes:</span>
@@ -7491,11 +7558,23 @@ a Point, Polygon, or LineString.</p>
 <span class="sd">        crs (Crs): The coordinate reference system of the features in the collection.</span>
 <span class="sd">        features (list[Feature]): A list of features in the collection, each with its own geometry and properties.</span>
 
+<span class="sd">    Functions:</span>
+<span class="sd">        serialize: Converts the FeatureCollection instance to a JSON string.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;FeatureCollection&quot;</span>
     <span class="n">crs</span><span class="p">:</span> <span class="n">Crs</span>
     <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Feature</span><span class="p">]</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize the FeatureCollection to a JSON string.</span>
+
+<span class="sd">        This method converts the FeatureCollection instance to a JSON string.</span>
+<span class="sd">        The serialization will exclude any fields that are None, and</span>
+<span class="sd">        field names in the serialization will be in camelCase.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -7509,6 +7588,50 @@ a Point, Polygon, or LineString.</p>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="nrl_sdk_lib.models.feature_collection.FeatureCollection.serialize" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">serialize</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Serialize the FeatureCollection to a JSON string.</p>
+<p>This method converts the FeatureCollection instance to a JSON string.
+The serialization will exclude any fields that are None, and
+field names in the serialization will be in camelCase.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>nrl-sdk-lib/src/nrl_sdk_lib/models/feature_collection.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize the FeatureCollection to a JSON string.</span>
+
+<span class="sd">    This method converts the FeatureCollection instance to a JSON string.</span>
+<span class="sd">    The serialization will exclude any fields that are None, and</span>
+<span class="sd">    field names in the serialization will be in camelCase.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
@@ -7585,7 +7708,8 @@ a Point, Polygon, or LineString.</p>
 
               <details class="quote">
                 <summary>Source code in <code>nrl-sdk-lib/src/nrl_sdk_lib/models/job.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
@@ -7594,8 +7718,7 @@ a Point, Polygon, or LineString.</p>
 <span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OperationType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OperationType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum for operation types.</span>
 
 <span class="sd">    This enum defines the types of operations that can be performed on a job.</span>
@@ -7711,7 +7834,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.job.Job.id">id</span></code></td>
             <td>
-                  <code><span title="pydantic.types.UUID4">UUID4</span></code>
+                  <code><span title="uuid.UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -7755,7 +7878,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.job.Job.data_id">data_id</span></code></td>
             <td>
-                  <code><span title="pydantic.types.UUID4">UUID4</span></code>
+                  <code><span title="uuid.UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -7816,7 +7939,8 @@ a Point, Polygon, or LineString.</p>
 
               <details class="quote">
                 <summary>Source code in <code>nrl-sdk-lib/src/nrl_sdk_lib/models/job.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
+<span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
@@ -7847,18 +7971,17 @@ a Point, Polygon, or LineString.</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Job</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Job</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A job model.</span>
 
 <span class="sd">    The job model represents a processing task that can be validated or reported.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        id (UUID4): Unique identifier for the job.</span>
+<span class="sd">        id (UUID): Unique identifier for the job.</span>
 <span class="sd">        status (str): Current status of the job.</span>
 <span class="sd">        content_type (str): Type of content being processed in the job.</span>
 <span class="sd">        operation (OperationType): Type of operation being performed in the job.</span>
-<span class="sd">        data_id (UUID4): Identifier for the data associated with the job.</span>
+<span class="sd">        data_id (UUID): Identifier for the data associated with the job.</span>
 <span class="sd">        created_at (datetime): Timestamp when the job was created.</span>
 <span class="sd">        created_by_user (str): Username of the user who created the job.</span>
 <span class="sd">        created_for_org (str): Organization for which the job was created.</span>
@@ -7875,12 +7998,12 @@ a Point, Polygon, or LineString.</p>
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">operation</span><span class="p">:</span> <span class="n">OperationType</span>
-    <span class="n">data_id</span><span class="p">:</span> <span class="n">UUID4</span>
+    <span class="n">data_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
     <span class="n">created_by_user</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">created_for_org</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">completed_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -7990,7 +8113,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.ResultError.komponent_id">komponent_id</span></code></td>
             <td>
-                  <code><span title="UUID">UUID</span> | None</code>
+                  <code><span title="uuid.UUID">UUID</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8001,7 +8124,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.ResultError.id">id</span></code></td>
             <td>
-                  <code><span title="UUID">UUID</span> | None</code>
+                  <code><span title="uuid.UUID">UUID</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8057,8 +8180,8 @@ a Point, Polygon, or LineString.</p>
     <span class="p">)</span>
 
     <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">komponent_id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
+    <span class="n">komponent_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -8139,7 +8262,7 @@ a Point, Polygon, or LineString.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.Result.job_id">job_id</span></code></td>
             <td>
-                  <code><span title="UUID">UUID</span></code>
+                  <code><span title="uuid.UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8178,7 +8301,7 @@ or an empty list if there are no errors.</p>
           <tr class="doc-section-item">
             <td><code><span title="nrl_sdk_lib.models.result.Result.id">id</span></code></td>
             <td>
-                  <code><span title="UUID">UUID</span> | None</code>
+                  <code><span title="uuid.UUID">UUID</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8246,10 +8369,10 @@ or an empty list if there are no errors.</p>
 
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">stage</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Should be enum.</span>
-    <span class="n">job_id</span><span class="p">:</span> <span class="n">UUID4</span>
+    <span class="n">job_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ResultError</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID4</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 

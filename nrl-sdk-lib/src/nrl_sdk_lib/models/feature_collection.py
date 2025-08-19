@@ -552,6 +552,9 @@ class FeatureCollection(Parent):
         crs (Crs): The coordinate reference system of the features in the collection.
         features (list[Feature]): A list of features in the collection, each with its own geometry and properties.
 
+    Methods:
+        serialize: Converts the FeatureCollection instance to a JSON string.
+
     """
 
     type: str = "FeatureCollection"
@@ -559,5 +562,10 @@ class FeatureCollection(Parent):
     features: list[Feature]
 
     async def serialize(self) -> str:
-        """Serialize the FeatureCollection to a JSON string."""
+        """Serialize the FeatureCollection to a JSON string.
+
+        This method converts the FeatureCollection instance to a JSON string.
+        The serialization will exclude any fields that are None, and
+        field names in the serialization will be in camelCase.
+        """
         return self.model_dump_json(exclude_none=True, by_alias=True)
