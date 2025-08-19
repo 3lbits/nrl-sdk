@@ -544,7 +544,7 @@ class FeatureCollection(Parent):
     ... )
     >>>
     >>> # Do something with feature_collection, e.g. serialize it to JSON:
-    >>> # print(feature_collection.model_dump_json(indent=2))
+    >>> # print(feature_collection.serialize())
     ```
 
     Attributes:
@@ -557,3 +557,7 @@ class FeatureCollection(Parent):
     type: str = "FeatureCollection"
     crs: Crs
     features: list[Feature]
+
+    async def serialize(self) -> str:
+        """Serialize the FeatureCollection to a JSON string."""
+        return self.model_dump_json(exclude_none=True, by_alias=True)
