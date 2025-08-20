@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
 
-class OperationType(str, Enum):
+class JobOperation(str, Enum):
     """Enum for operation types.
 
     This enum defines the types of operations that can be performed on a job.
@@ -21,7 +21,7 @@ class OperationType(str, Enum):
     """Operation for reporting data."""
 
 
-class StatusType(str, Enum):
+class JobStatus(str, Enum):
     """Enum for job status types.
 
     This enum defines the possible statuses for a job.
@@ -47,9 +47,9 @@ class Job(BaseModel):
 
     Attributes:
         id (UUID): Unique identifier for the job.
-        status (StatusType): Current status of the job.
+        status (JobStatus): Current status of the job.
         content_type (str): Type of content being processed in the job.
-        operation (OperationType): Type of operation being performed in the job.
+        operation (JobOperation): Type of operation being performed in the job.
         data_id (UUID): Identifier for the data associated with the job.
         created_at (datetime): Timestamp when the job was created.
         created_for_org (str): Organization for which the job was created.
@@ -64,9 +64,9 @@ class Job(BaseModel):
         populate_by_name=True,
     )
 
-    status: StatusType
+    status: JobStatus
     content_type: str
-    operation: OperationType
+    operation: JobOperation
     data_id: UUID
     created_at: datetime
     created_for_org: str
