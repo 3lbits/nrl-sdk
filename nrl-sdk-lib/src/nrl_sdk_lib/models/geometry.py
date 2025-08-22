@@ -39,7 +39,7 @@ class Point(Geometry):
     The Point model represents a single point in a two-dimensional space.
 
     Attributes:
-        coordinates (list[float]): A list of two floats representing the x and y coordinates of the point.
+        coordinates (list[float]): A list of two or three floats representing the x, y and z coordinates of the point.
 
     """
 
@@ -53,7 +53,7 @@ class Polygon(Geometry):
 
     Attributes:
         coordinates (list[list[list[float]]]): A list of linear rings, where each ring is a list of points,
-            and each point is represented by a list of two floats (x, y).
+            and each point is represented by a list of two or three floats (x, y, z).
 
     """
 
@@ -66,7 +66,8 @@ class LineString(Geometry):
     The LineString model represents a sequence of points connected by straight lines.
 
     Attributes:
-        coordinates (list[list[float]]): A list of points, where each point is represented by a list of two floats (x, y).
+        coordinates (list[list[float]]): A list of points, where each point is represented by
+        a list of two or three floats (x, y, z).
 
     """
 
