@@ -51,11 +51,15 @@ class Job(BaseModel):
         content_type (str): Type of content being processed in the job.
         operation (JobOperation): Type of operation being performed in the job.
         created_at (datetime): Timestamp when the job was created.
+        started_at (datetime | None): Timestamp when the job became in progress.
         created_for_org (str): Organization for which the job was created.
         geojson_data_ids (list[UUID] | None): List of identifiers for the geojson data associated with the job.
         cim_data_id (UUID): Identifier for the cim data associated with the job.
         created_by_user (str): Username of the user who created the job.
         finished_at (datetime | None): Timestamp when the job finished.
+        number_of_features (int | None): Number of features processed in the job.
+        number_of_batches (int | None): Number of batches processed in the job.
+        batch_size (int | None): Size of each batch processed in the job.
 
     """
 
@@ -73,5 +77,9 @@ class Job(BaseModel):
     geojson_data_ids: list[UUID] | None = None
     cim_data_id: UUID | None = None
     created_by_user: str | None = None
+    started_at: datetime | None = None
     finished_at: datetime | None = None
+    number_of_features: int | None = None
+    number_of_batches: int | None = None
+    batch_size: int | None = None
     id: UUID | None = Field(default_factory=uuid4)
