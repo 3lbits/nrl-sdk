@@ -59,9 +59,11 @@ class JobData(BaseModel):
     The job data model represents the data associated with a job, including its content type and the actual content.
 
     Attributes:
-        id (UUID): Unique identifier for the job data.
+        type (JobDataType): Type of job data (e.g., "geojson" or "cim").
         content_type (str): Type of content being stored (e.g., "application/json").
+        job_id (UUID): Identifier for the job associated with this data.
         content (bytes): The actual content data in bytes.
+        id (UUID): Unique identifier for the job data.
 
     """
 
@@ -73,6 +75,7 @@ class JobData(BaseModel):
 
     type: JobDataType
     content_type: str
+    job_id: UUID
     content: bytes | None = None
     id: UUID | None = Field(default_factory=uuid4)
 

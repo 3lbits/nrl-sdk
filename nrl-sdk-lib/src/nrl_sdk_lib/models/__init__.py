@@ -23,7 +23,7 @@ from .feature_collection import (
     PunktType,
 )
 from .geometry import LineString, Point, Polygon
-from .job import Job, JobOperation, JobStatus, JobData, JobDataType
+from .job import Job, JobData, JobDataType, JobOperation, JobStatus
 from .result import Result, ResultError, ResultStage, ResultStatus, ResultType
 
 __all__ = [
