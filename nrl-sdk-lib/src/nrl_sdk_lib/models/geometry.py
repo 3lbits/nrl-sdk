@@ -66,8 +66,7 @@ class LineString(Geometry):
     The LineString model represents a sequence of points connected by straight lines.
 
     Attributes:
-        coordinates (list[list[float]]): A list of points, where each point is represented by
-        a list of two or three floats (x, y, z).
+        coordinates (list[list[float]]): A list of points, where each point is represented by a list of two or three floats (x, y, z).
 
     """
 

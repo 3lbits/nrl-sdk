@@ -50,9 +50,10 @@ class Job(BaseModel):
         status (JobStatus): Current status of the job.
         content_type (str): Type of content being processed in the job.
         operation (JobOperation): Type of operation being performed in the job.
-        data_id (UUID): Identifier for the data associated with the job.
         created_at (datetime): Timestamp when the job was created.
         created_for_org (str): Organization for which the job was created.
+        geojson_data_ids (list[UUID] | None): List of identifiers for the geojson data associated with the job.
+        cim_data_id (UUID): Identifier for the cim data associated with the job.
         created_by_user (str): Username of the user who created the job.
         finished_at (datetime | None): Timestamp when the job finished.
 
@@ -67,9 +68,10 @@ class Job(BaseModel):
     status: JobStatus
     content_type: str
     operation: JobOperation
-    data_id: UUID
     created_at: datetime
     created_for_org: str
+    geojson_data_ids: list[UUID] | None = None
+    cim_data_id: UUID | None = None
     created_by_user: str | None = None
     finished_at: datetime | None = None
     id: UUID | None = Field(default_factory=uuid4)
