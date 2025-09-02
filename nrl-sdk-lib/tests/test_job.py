@@ -5,7 +5,7 @@ from uuid import UUID
 
 import pytest
 
-from nrl_sdk_lib.models.job import Job, JobData, JobDataType, JobOperation
+from nrl_sdk_lib.models import Job, JobData, JobDataType, JobOperation
 
 
 @pytest.fixture

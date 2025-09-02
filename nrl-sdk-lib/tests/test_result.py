@@ -4,7 +4,7 @@ from uuid import UUID
 
 import pytest
 
-from nrl_sdk_lib.models.result import (
+from nrl_sdk_lib.models import (
     Result,
     ResultStage,
     ResultStatus,

@@ -23,7 +23,7 @@ from .feature_collection import (
     PunktType,
 )
 from .geometry import LineString, Point, Polygon
-from .job import Job, JobOperation, JobStatus
+from .job import Job, JobOperation, JobStatus, JobData, JobDataType
 from .result import Result, ResultError, ResultStage, ResultStatus, ResultType
 
 __all__ = [
@@ -36,6 +36,8 @@ __all__ = [
     "FlateType",
     "Høydereferanse",
     "Job",
+    "JobData",
+    "JobDataType",
     "JobOperation",
     "JobStatus",
     "KomponentReferanse",
