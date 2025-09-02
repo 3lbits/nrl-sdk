@@ -40,6 +40,19 @@ class JobStatus(str, Enum):
     """Job has failed during processing."""
 
 
+class JobDataType(str, Enum):
+    """Enum for job data types.
+
+    This enum defines the possible types of job data.
+    """
+
+    GEOJSON = "geojson"
+    """Job data type for GeoJSON data."""
+
+    CIM = "cim"
+    """Job data type for CIM data."""
+
+
 class JobData(BaseModel):
     """A job data model for storing the data related to the job .
 
@@ -58,6 +71,7 @@ class JobData(BaseModel):
         populate_by_name=True,
     )
 
+    type: JobDataType
     content_type: str
     content: bytes | None = None
     id: UUID | None = Field(default_factory=uuid4)
@@ -76,8 +90,7 @@ class Job(BaseModel):
         created_at (datetime): Timestamp when the job was created.
         started_at (datetime | None): Timestamp when the job became in progress.
         created_for_org (str): Organization for which the job was created.
-        geojson_data (list[JobData] | None): List of  geojson data associated with the job.
-        cim_data (JobData | None): The cim data associated with the job.
+        job_data (list[JobData] | None): List of data associated with the job.
         created_by_user (str): Username of the user who created the job.
         finished_at (datetime | None): Timestamp when the job finished.
         number_of_features (int | None): Number of features processed in the job.
@@ -97,8 +110,7 @@ class Job(BaseModel):
     operation: JobOperation
     created_at: datetime
     created_for_org: str
-    geojson_data: list[JobData] | None = None
-    cim_data: JobData | None = None
+    job_data: list[JobData] | None = None
     created_by_user: str | None = None
     started_at: datetime | None = None
     finished_at: datetime | None = None
