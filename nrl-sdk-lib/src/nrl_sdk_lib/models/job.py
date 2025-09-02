@@ -40,6 +40,29 @@ class JobStatus(str, Enum):
     """Job has failed during processing."""
 
 
+class JobData(BaseModel):
+    """A job data model for storing the data related to the job .
+
+    The job data model represents the data associated with a job, including its content type and the actual content.
+
+    Attributes:
+        id (UUID): Unique identifier for the job data.
+        content_type (str): Type of content being stored (e.g., "application/json").
+        content (bytes): The actual content data in bytes.
+
+    """
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        alias_generator=to_camel,
+        populate_by_name=True,
+    )
+
+    content_type: str
+    content: bytes | None = None
+    id: UUID | None = Field(default_factory=uuid4)
+
+
 class Job(BaseModel):
     """A job model.
 
@@ -53,8 +76,8 @@ class Job(BaseModel):
         created_at (datetime): Timestamp when the job was created.
         started_at (datetime | None): Timestamp when the job became in progress.
         created_for_org (str): Organization for which the job was created.
-        geojson_data_ids (list[UUID] | None): List of identifiers for the geojson data associated with the job.
-        cim_data_id (UUID): Identifier for the cim data associated with the job.
+        geojson_data (list[JobData] | None): List of  geojson data associated with the job.
+        cim_data (JobData | None): The cim data associated with the job.
         created_by_user (str): Username of the user who created the job.
         finished_at (datetime | None): Timestamp when the job finished.
         number_of_features (int | None): Number of features processed in the job.
@@ -74,8 +97,8 @@ class Job(BaseModel):
     operation: JobOperation
     created_at: datetime
     created_for_org: str
-    geojson_data_ids: list[UUID] | None = None
-    cim_data_id: UUID | None = None
+    geojson_data: list[JobData] | None = None
+    cim_data: JobData | None = None
     created_by_user: str | None = None
     started_at: datetime | None = None
     finished_at: datetime | None = None
