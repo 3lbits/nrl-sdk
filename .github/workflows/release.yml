@@ -6,6 +6,7 @@ on:
         type: choice
         options:
           - nrl-sdk-lib
+          - tools/nrl-test-data-generator
         description: "The package to release"
         required: true
 

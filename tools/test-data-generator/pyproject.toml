@@ -1,16 +1,74 @@
 [project]
-name = "test-data-generator"
-version = "0.1.0"
+name = "nrl-test-data-generator"
+version = "0.2.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = ["xlsxwriter>=3.1.0", "uuid>=1.30.0"]
+dependencies = [
+    "click>=8.2.1",
+    "xlsxwriter>=3.1.0",
+]
 
 [tool.uv]
 package = true
 
 [dependency-groups]
-dev = ["pyright>=1.1.402", "ruff>=0.12.2"]
+dev = [
+    "deptry>=0.23.1",
+    "pip-audit>=2.9.0",
+    "poethepoet>=0.37.0",
+    "pyright>=1.1.402",
+    "pytest>=8.4.2",
+    "pytest-cov>=6.3.0",
+    "ruff>=0.12.2",
+    "ty>=0.0.1a20",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+# and then manually ignore annoying ones:
+ignore = [
+    #     "ANN401", # Any should be allowed
+    "D211",
+    "D213",
+    "COM812",
+    "D203",
+    "ISC001",
+    "S311", # weak pseudo-random number generators are fine for test data generation
+    "PLC2401", # nonASCII names are fine in test data generation
+    "PLR2004", # Magic values in tests are fine
+]
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    # at least this three should be fine in tests:
+    "S101",   # asserts allowed in tests...
+    "ANN401", # Any should be allowed
+]
+
+[tool.ruff.lint.isort]
+# so it knows to group first-party stuff last
+known-first-party = ["nrl_test_data_generator"]
+
 
 [project.scripts]
-generate-testdata = "test_data_generator.cli:main"
+nrl-test-data-generator = "nrl_test_data_generator.cli:cli"
+
+[tool.coverage.paths]
+source = ["nrl_test_data_generator"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+
+
+[tool.poe.tasks]
+format = "uv run ruff format"
+lint = "uv run ruff check --fix"
+check-types = "uv run pyright"
+check-deps = "uv run deptry ."
+audit = "uv run pip-audit ."
+"test" = "uv run pytest -v --cov=nrl_test_data_generator tests/ --cov-report=term-missing --cov-report=html"
+release = ["lint",  "check-types", "check-deps", "audit", "test"]

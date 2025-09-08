@@ -10,3 +10,8 @@ venv/
 
 # Test data files
 testdata_*
+
+# Coverage
+.coverage
+htmlcov/
+coverage.xml
