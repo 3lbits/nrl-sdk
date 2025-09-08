@@ -1,23 +1,26 @@
 """NRL test data generation functionality."""
 
-import xlsxwriter
 import json
-import uuid
-import random
 import math
-from datetime import datetime
+import random
 import re
+import uuid
+from datetime import UTC, datetime
+from pathlib import Path
+
+import xlsxwriter
 
 
-def generate_files(
-    num_elements=2,
-    output_prefix="testdata",
-    status="planlagtOppført",
-    region=None,
-    include_errors=False,
-    error_positions=None,
-    error_freq=None,
-):
+def generate_files(  # noqa: PLR0913
+    num_elements: int = 2,
+    output_prefix: str = "testdata",
+    status: str = "planlagtOppført",
+    region: str | None = None,
+    error_positions: list[int] | None = None,
+    error_freq: float | None = None,
+    *,
+    include_errors: bool = False,
+) -> dict:
     """Generate test data files for NRL.
 
     Args:
@@ -26,11 +29,13 @@ def generate_files(
         status (str): Status value for the elements
         region (str): Region to generate data in (None for random)
         include_errors (bool): Include error regions in random selection
-        error_positions (list): List of positions (1-based) where errors should be injected
+        error_positions (list): List of positions (1-based) where
+            errors should be injected
         error_freq (float): Frequency of error injection (0.0-1.0)
 
     Returns:
         dict: Information about the generated files
+
     """
     # Generate random test data
     common_data = generate_random_data(
@@ -44,7 +49,7 @@ def generate_files(
     output_type = f"{num_elements * 2}_elements"
 
     # Add timestamp for unique filenames
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(tz=UTC).strftime("%Y%m%d_%H%M%S")
 
     # Define output filenames with better naming
     # Add "_with_errors" suffix if error injection is used
@@ -69,11 +74,12 @@ def generate_files(
         error_log_file = (
             f"{output_prefix}_{output_type}{error_suffix}_{timestamp}_errors.txt"
         )
-        with open(error_log_file, "w") as f:
-            for entry in common_data["error_log"]:
-                f.write(
-                    f"{entry['position']} {entry['id']} {entry['error_type']} {entry['coordinates'][0]},{entry['coordinates'][1]} {entry['location']} {entry['zone']}\n"
-                )
+        error_log_file_path = Path(error_log_file)
+        with error_log_file_path.open("w") as f:
+            f.writelines(
+                f"{entry['position']} {entry['id']} {entry['error_type']} {entry['coordinates'][0]},{entry['coordinates'][1]} {entry['location']} {entry['zone']}\n"  # noqa: E501
+                for entry in common_data["error_log"]
+            )
 
     result = {
         "excel_file": excel_filename,
@@ -90,14 +96,15 @@ def generate_files(
     return result
 
 
-def generate_random_data(
-    num_elements,
-    status="planlagtOppført",
-    region=None,
-    include_errors=False,
-    error_positions=None,
-    error_freq=None,
-):
+def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
+    num_elements: int,
+    status: str = "planlagtOppført",
+    region: str | None = None,
+    error_positions: list[int] | None = None,
+    error_freq: float | None = None,
+    *,
+    include_errors: bool = False,
+) -> dict:
     """Generate random data for NRL test files with a wider geographical area.
 
     Args:
@@ -105,11 +112,13 @@ def generate_random_data(
         status (str): Status value for the elements
         region (str): Region to generate data in (None for random)
         include_errors (bool): Include error regions in random selection
-        error_positions (list): List of positions (1-based) where errors should be injected
+        error_positions (list): List of positions (1-based) where errors
+            should be injected
         error_freq (float): Frequency of error injection (0.0-1.0)
 
     Returns:
         dict: Generated data with mast points and trase lines
+
     """
     # Define Norwegian data elements
     norwegian_areas = [
@@ -173,13 +182,13 @@ def generate_random_data(
     ]
 
     # Define regions within NRL coverage area with UTM zones
-    # Western and central Norway (Bergen, Stavanger, Oslo, Trondheim etc.) uses UTM zone 32 
+    # Western and central Norway (Bergen, Stavanger, Oslo, Trondheim etc.) uses UTM zone 32 # noqa: E501
     # Eastern/northeastern Norway (near Swedish/Finnish borders) would use UTM zone 33
     # https://no.wikipedia.org/wiki/UTM-koordinater
     regions = {
         "Oslo_area": {
             "center": [598500, 6642000],  # Oslo area in UTM 32N coordinates
-            "radius": 10000,  # Reduced from 15km to 10km - Oslo is close to Swedish border
+            "radius": 10000,  # Reduced from 15km to 10km - Oslo is close to Swedish border # noqa: E501
             "zone": 32,
         },
         "Larvik_area": {
@@ -204,7 +213,7 @@ def generate_random_data(
         },
         "Trondheim_area": {
             "center": [570000, 7030000],  # Trondheim area in UTM 32N coordinates
-            "radius": 15000,  # Reduced from 20km to 15km - most risky due to narrow country width
+            "radius": 15000,  # Reduced from 20km to 15km - most risky due to narrow country width # noqa: E501
             "zone": 32,
         },
     }
@@ -229,14 +238,13 @@ def generate_random_data(
     # Choose region based on parameter or random
     if region and region in all_regions:
         region_name = region
+    # Choose from all regions or just Norwegian regions based on include_errors flag
+    elif include_errors:
+        region_name = random.choice(list(all_regions.keys()))
     else:
-        # Choose from all regions or just Norwegian regions based on include_errors flag
-        if include_errors:
-            region_name = random.choice(list(all_regions.keys()))
-        else:
-            region_name = random.choice(
-                list(regions.keys())
-            )  # Only choose from valid regions by default
+        region_name = random.choice(
+            list(regions.keys())
+        )  # Only choose from valid regions by default
     region_data = all_regions[region_name]
 
     # Generate coordinates within the selected region
@@ -250,14 +258,14 @@ def generate_random_data(
         is_error_position = False
 
         # Check if this position should have an error based on error_positions
-        if error_positions and (i + 1) in error_positions:
-            is_error_position = True
-        # Check if this position should have an error based on error_freq
-        elif error_freq is not None and random.random() < error_freq:
+        if (error_positions and (i + 1) in error_positions) or (
+            error_freq is not None and random.random() < error_freq
+        ):
             is_error_position = True
 
         if is_error_position:
-            # Generate error coordinates around Hjørring with tighter radius for inland points
+            # Generate error coordinates around Hjørring with
+            # tighter radius for inland points
             angle = random.uniform(0, 2 * math.pi)
             # Use smaller radius (5km) to ensure points are inland
             distance = random.uniform(0, 1) ** 0.5 * 5000
@@ -384,7 +392,8 @@ def generate_random_data(
             }
             trase_lines.append(trase_line)
 
-    # If we need more trase lines to match num_elements, create self-loops or short segments
+    # If we need more trase lines to match num_elements,
+    # create self-loops or short segments
     while len(trase_lines) < num_elements:
         # Use any available mast point to create a short segment
         if mast_points:
@@ -421,12 +430,13 @@ def generate_random_data(
     return common_data
 
 
-def generate_excel(data, filename):
+def generate_excel(data: dict, filename: str) -> None:  # noqa: C901
     """Generate Excel file with test data.
 
     Args:
         data (dict): Data structure with mast points and trase lines
         filename (str): Output Excel filename
+
     """
     # Create a workbook and add worksheets
     workbook = xlsxwriter.Workbook(filename)
@@ -660,12 +670,12 @@ def generate_excel(data, filename):
 
     # Generate data for mast rows
     mast_rows = []
-    for idx, mast in enumerate(data["mast_points"]):
+    for _idx, mast in enumerate(data["mast_points"]):
         # Derive random but realistic values for the mast
         betegnelse = f"LM{80000 + random.randint(1000, 9999)}"
         area = random.choice(norwegian_areas)
         username = random.choice(norwegian_users)
-        installationYear = random.randint(1960, 2020)
+        installationYear = random.randint(1960, 2020)  # noqa: N806
         visible_height = random.randint(5, 15)
         impregnering = random.choice(impregnering_types)
         fundament_type = random.choice(fundament_types)
@@ -800,11 +810,12 @@ def generate_excel(data, filename):
 
     # Generate random rows for trase lines
     trase_rows = []
-    for idx, trase in enumerate(data["trase_lines"]):
+    for _idx, trase in enumerate(data["trase_lines"]):
         # Calculate Euclidean distance for length
         start = trase["coordinates"][0]
         end = trase["coordinates"][1]
-        # Simple distance calculation (not accurate for geographic coordinates but reasonable for test data)
+        # Simple distance calculation (not accurate for geographic coordinates
+        #  but reasonable for test data)
         length = (
             (end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2
         ) ** 0.5 * 100  # No z component for distance calculation
@@ -929,12 +940,13 @@ def generate_excel(data, filename):
     workbook.close()
 
 
-def generate_geojson(data, filename):
+def generate_geojson(data: dict, filename: str) -> None:
     """Generate GeoJSON file with test data.
 
     Args:
         data (dict): Data structure with mast points and trase lines
         filename (str): Output GeoJSON filename
+
     """
     # Determine CRS based on the region zone used
     utm_zone = data.get("utm_zone", 32)  # Default to zone 32
@@ -994,27 +1006,30 @@ def generate_geojson(data, filename):
         geojson["features"].append(feature)
 
     # Write to file
-    with open(filename, "w", encoding="utf-8") as f:
+    file_path = Path(filename)
+    with file_path.open("w", encoding="utf-8") as f:
         json.dump(geojson, f, ensure_ascii=False, indent=2)
 
 
-def from_nrl_luftspenn_type(luftspenn_type):
+def from_nrl_luftspenn_type(luftspenn_type: str) -> int:
+    """Map NRL luftspennType string to integer code."""
     if re.search(r"regional", luftspenn_type, re.IGNORECASE):
         return 8
-    elif re.search(r"h[oø]gspent|h[oø]yspent", luftspenn_type, re.IGNORECASE):
+    if re.search(r"h[oø]gspent|h[oø]yspent", luftspenn_type, re.IGNORECASE):
         return 4
-    elif re.search(r"lavspent", luftspenn_type, re.IGNORECASE):
+    if re.search(r"lavspent", luftspenn_type, re.IGNORECASE):
         return 6
-    else:
-        raise ValueError(f"Unexpected luftspenn_type: {luftspenn_type}")
+    msg = f"Unexpected luftspenn_type: {luftspenn_type}"
+    raise ValueError(msg)
 
 
-def from_nrl_mast_type(mast_type):
+def from_nrl_mast_type(mast_type: str) -> int:
+    """Map NRL mastType string to integer code."""
     if re.search(r"regional", mast_type, re.IGNORECASE):
         return 8
-    elif re.search(r"h[oø]gspent|h[oø]yspent", mast_type, re.IGNORECASE):
+    if re.search(r"h[oø]gspent|h[oø]yspent", mast_type, re.IGNORECASE):
         return 4
-    elif re.search(r"lavspent", mast_type, re.IGNORECASE):
+    if re.search(r"lavspent", mast_type, re.IGNORECASE):
         return 6
-    else:
-        raise ValueError(f"Unexpected mast_type: {mast_type}")
+    msg = f"Unexpected mast_type: {mast_type}"
+    raise ValueError(msg)

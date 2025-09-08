@@ -4,30 +4,17 @@ A utility for generating test data for the NRL (Nasjonalt Register over Luftfart
 
 ## Installation
 
-This project uses `uv` for Python package management. If you haven't installed `uv` yet, you can find instructions at [the uv GitHub repository](https://github.com/astral-sh/uv).
-
-### Setting Up a Development Environment
-
 ```bash
-# Clone the repository
-# Navigate to the project directory
-
-# Create a virtual environment
-uv venv
-
-# Activate the environment
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install the package in development mode
-uv pip install -e .
+pip install nrl-test-data-generator
 ```
+
 
 ## Usage
 
 Generate Excel and GeoJSON files with NRL-specific data:
 
 ```bash
-generate-testdata --num-elements 5 --status eksisterende
+uv run nrl-test-data-generator --num-elements 5 --status eksisterende
 ```
 
 Options:
@@ -41,7 +28,7 @@ Options:
 To see all available options:
 
 ```bash
-generate-testdata --help
+uv run nrl-test-data-generator --help
 ```
 
 ## Output Files
@@ -62,7 +49,25 @@ To prevent validation errors with the Norwegian National Detailed Height Model (
 
 The fixed coordinates limit geographic variation but allow for creating valid test data that can be used with the NRL system.
 
+## Setting Up a Development Environment
+
+This project uses `uv` for Python package management. If you haven't installed `uv` yet, you can find instructions at [the uv GitHub repository](https://github.com/astral-sh/uv).
+
+```bash
+# Clone the repository
+# Navigate to the project directory
+
+# Install dependencies
+uv sync
+```
+
+Run pipeline:
+
+```bash
+uv run poe release
+```
+
 ## Dependencies
 
+- click: For command-line interface
 - xlsxwriter: For generating Excel files
-- uuid: For generating unique identifiers
