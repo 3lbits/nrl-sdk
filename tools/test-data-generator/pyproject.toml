@@ -17,7 +17,6 @@ dev = [
     "deptry>=0.23.1",
     "pip-audit>=2.9.0",
     "poethepoet>=0.37.0",
-    "pyright>=1.1.402",
     "pytest>=8.4.2",
     "pytest-cov>=6.3.0",
     "ruff>=0.12.2",
@@ -67,7 +66,7 @@ show_missing = true
 [tool.poe.tasks]
 format = "uv run ruff format"
 lint = "uv run ruff check --fix"
-check-types = "uv run pyright"
+check-types = "uv run ty check ."
 check-deps = "uv run deptry ."
 audit = "uv run pip-audit ."
 "test" = "uv run pytest -v --cov=nrl_test_data_generator tests/ --cov-report=term-missing --cov-report=html"
