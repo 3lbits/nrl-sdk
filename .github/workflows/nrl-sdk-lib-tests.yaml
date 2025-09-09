@@ -1,0 +1,19 @@
+name: 🤖🔧Run Tests for Python nrl-sdk-lib
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "nrl-sdk-lib/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "nrl-sdk-lib/**"
+
+jobs:
+  call-tests:
+    uses: ./.github/workflows/python-tests.yaml
+    with:
+      path: "nrl-sdk-lib"

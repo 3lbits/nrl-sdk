@@ -71,5 +71,5 @@ lint = "uv run ruff check --fix"
 check-types = "uv run ty check ."
 check-deps = "uv run deptry ."
 audit = "uv run pip-audit ."
-"test" = "uv run pytest -v --cov=nrl_test_data_generator tests/ --cov-report=term-missing --cov-report=html"
+test = "uv run pytest -v --cov=nrl_test_data_generator tests/ --cov-report=term-missing --cov-report=html"
 release = ["lint",  "check-types", "check-deps", "audit", "test"]
