@@ -4,6 +4,7 @@ import importlib.metadata
 from pathlib import Path
 
 from click.testing import CliRunner
+from nrl_sdk_lib.models import FeatureCollection
 
 from nrl_test_data_generator.cli import cli
 
@@ -126,3 +127,24 @@ def test_cli_with_faulty_error_pos() -> None:
         # Check that two files are created
         files = list(Path().glob("testdata_4_elements_*.*"))
         assert len(files) == 0, f"Expected 0 files, found {len(files)}"
+
+
+def test_cli_with_version_2() -> None:
+    """Should result in exit code 0 and one valid file with 4 elements."""
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        result = runner.invoke(cli, ["--v2"])
+        assert result.exit_code == 0, result.output
+
+        # Check that one file is created
+        files = list(Path().glob("testdata_4_elements_*.geojson"))
+        assert len(files) == 1, f"Expected 1 files, found {len(files)}"
+
+        geojson_file = next(iter(Path().glob("testdata_4_elements_*.geojson")))
+        assert geojson_file.exists(), "Expected GeoJSON file to be created"
+
+        # Validate the GeoJSON file against the FeatureCollection model
+        geojson_data = FeatureCollection.model_validate_json(geojson_file.read_text())
+        assert len(geojson_data.features) == 4, (
+            "Expected 4 features in the GeoJSON file"
+        )
