@@ -3,18 +3,24 @@
 A utility for generating test data for the NRL (Nasjonalt Register over Luftfartshindre) project.
 
 ## Installation
+Using pip:
 
 ```bash
 pip install nrl-test-data-generator
 ```
 
+or using pipx:
+
+```bash
+pipx install nrl-test-data-generator
+```
 
 ## Usage
 
 Generate Excel and GeoJSON files with NRL-specific data:
 
 ```bash
-uv run nrl-test-data-generator --num-elements 5 --status eksisterende
+nrl-test-data-generator --num-elements 5 --status eksisterende
 ```
 
 Options:
@@ -28,7 +34,7 @@ Options:
 To see all available options:
 
 ```bash
-uv run nrl-test-data-generator --help
+nrl-test-data-generator --help
 ```
 
 ## Output Files

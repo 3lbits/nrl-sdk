@@ -1,13 +1,27 @@
 """Command-line interface for the NRL test data generator."""
 
+import asyncio
 import sys
+from functools import wraps
 
 import click
 
 from . import nrl_generator
 
 
+def coro(f):  # noqa: ANN001, ANN201
+    """Run a function as a coroutine."""
+
+    @wraps(f)
+    def wrapper(*args: str, **kwargs: int):  # noqa: ANN202
+        """Run the function as a coroutine."""
+        return asyncio.run(f(*args, **kwargs))
+
+    return wrapper
+
+
 @click.command()
+@coro
 @click.version_option(message=("nrl-test-data-generator, %(version)s"))
 @click.option(
     "-n",
@@ -85,7 +99,13 @@ from . import nrl_generator
     type=float,
     help="Frequency of error injection (0.0-1.0, e.g., 0.2 for 20%% errors)",
 )
-def cli(  # noqa: PLR0913
+@click.option(
+    "--v2",
+    is_flag=True,
+    default=False,
+    help="Generate GeoJSON in NRL v2 format (default: NRL v1 format)",
+)
+async def cli(  # noqa: PLR0913
     num_elements: int,
     total_elements: int,
     output_prefix: str,
@@ -95,6 +115,7 @@ def cli(  # noqa: PLR0913
     error_freq: float,
     *,
     include_errors: bool,
+    v2: bool,
 ) -> int:
     """Generate test data for NRL (Nasjonalt Register over Luftfartshindre)."""
     # If total-elements is specified, use that instead of num-elements
@@ -135,7 +156,7 @@ def cli(  # noqa: PLR0913
 
     try:
         # Generate NRL test data
-        result = nrl_generator.generate_files(
+        result = await nrl_generator.generate_files(
             num_elements=num_each,
             output_prefix=output_prefix,
             status=status,
@@ -143,6 +164,7 @@ def cli(  # noqa: PLR0913
             include_errors=include_errors,
             error_positions=error_positions,
             error_freq=error_freq,
+            v2=v2,
         )
 
         # Extract the region name if available
