@@ -10,13 +10,12 @@ on:
         description: "The package to release"
         required: true
 
-permissions:
-  id-token: write
-
 jobs:
   release:
     name: python
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
