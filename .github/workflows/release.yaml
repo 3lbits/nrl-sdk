@@ -11,9 +11,11 @@ on:
         required: true
 
 jobs:
-  release-build:
+  pypi-publish:
     name: Upload release to PyPI
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -32,25 +34,5 @@ jobs:
           cd ${{ github.event.inputs.package }}
           uv build
 
-      - name: upload dists
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-  pypi-publish:
-    runs-on: ubuntu-latest
-    needs:
-      - release-build
-    permissions:
-      id-token: write
-
-    steps:
-      - name: Retrieve release distributions
-        uses: actions/download-artifact@v5
-        with:
-          name: release-dists
-          path: dist/
-
-      - name: Publish release distributions to PyPI
+      - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
