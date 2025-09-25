@@ -24,6 +24,7 @@ async def test_result_model_without_errors() -> None:
     result_data = {
         "status": "success",
         "job_id": "cd0d49f7-c19d-432c-bc8d-bb9c2bd0f325",
+        "batch_number": 1,
         "id": "764eff66-2b4b-4283-819f-c7f7cd245a13",
     }
 
@@ -31,6 +32,7 @@ async def test_result_model_without_errors() -> None:
     assert result.status == ResultStatus.SUCCESS
     assert result.stage is None
     assert result.job_id == UUID("cd0d49f7-c19d-432c-bc8d-bb9c2bd0f325")
+    assert result.batch_number == 1
     assert result.type is None
     assert result.errors == []
     assert result.id == UUID("764eff66-2b4b-4283-819f-c7f7cd245a13")
@@ -43,6 +45,7 @@ async def test_result_model_with_errors() -> None:
         "status": "failure",
         "stage": 2,
         "job_id": "e4000512-fa93-4a35-882b-c665a8150a1d",
+        "batch_number": 1,
         "type": "ValidationException",
         "errors": [
             {
@@ -62,6 +65,7 @@ async def test_result_model_with_errors() -> None:
     assert result.type == ResultType.VALIDATION_EXCEPTION
     assert result.stage == ResultStage.OWNERSHIP
     assert result.job_id == UUID("e4000512-fa93-4a35-882b-c665a8150a1d")
+    assert result.batch_number == 1
     assert result.errors is not None
     assert len(result.errors) == 2
     assert result.errors[0].reason == "Invalid data format"

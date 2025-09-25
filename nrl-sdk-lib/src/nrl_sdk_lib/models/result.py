@@ -88,6 +88,7 @@ class Result(BaseModel):
         status (str): The status of the result, e.g., "success" or "
         stage (int): The stage of the process, typically an integer indicating the step in the workflow.
         job_id (UUID): The unique identifier of the job associated with this result.
+        batch_number (int | None): The batch number if the job was processed in batches.
         type (str | None): The type of result, if applicable.
         errors (list[ResultError] | None): A list of errors encountered during the process
             or an empty list if there are no errors.
@@ -103,6 +104,7 @@ class Result(BaseModel):
 
     status: ResultStatus
     job_id: UUID
+    batch_number: int | None = None
     type: ResultType | None = None
     stage: ResultStage | None = None
     errors: list[ResultError] | None = Field(default_factory=list)
