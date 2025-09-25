@@ -10,13 +10,12 @@ on:
         description: "The package to release"
         required: true
 
-permissions:
-  id-token: write
-
 jobs:
-  release:
-    name: python
+  pypi-publish:
+    name: Upload release to PyPI
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -34,4 +33,6 @@ jobs:
         run: |
           cd ${{ github.event.inputs.package }}
           uv build
-          uv publish
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
