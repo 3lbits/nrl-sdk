@@ -1,6 +1,5 @@
 """Module for response message model."""
 
-from datetime import datetime
 from enum import Enum
 from uuid import UUID, uuid4
 
@@ -109,6 +108,4 @@ class Result(BaseModel):
     type: ResultType | None = None
     stage: ResultStage | None = None
     errors: list[ResultError] | None = Field(default_factory=list)
-    start_processing_at: datetime | None = None
-    finished_processing_at: datetime | None = None
     id: UUID | None = Field(default_factory=uuid4)

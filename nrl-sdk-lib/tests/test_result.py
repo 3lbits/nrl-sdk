@@ -1,6 +1,5 @@
 """Test module for result model."""
 
-from datetime import UTC, datetime
 from uuid import UUID
 
 import pytest
@@ -37,8 +36,6 @@ async def test_result_model_without_errors() -> None:
     assert result.type is None
     assert result.errors == []
     assert result.id == UUID("764eff66-2b4b-4283-819f-c7f7cd245a13")
-    assert result.start_processing_at is None
-    assert result.finished_processing_at is None
 
 
 @pytest.mark.anyio
@@ -60,8 +57,6 @@ async def test_result_model_with_errors() -> None:
                 "komponent_id": "4e2baa5f-80ea-4376-acbd-095054825d11",
             },
         ],
-        "start_processing_at": datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC),
-        "finished_processing_at": datetime(2023, 10, 1, 13, 0, 0, tzinfo=UTC),
         "id": "1479de31-ed05-4461-8333-becd76a2254a",
     }
 
@@ -79,7 +74,3 @@ async def test_result_model_with_errors() -> None:
     assert result.errors[1].komponent_id == UUID("4e2baa5f-80ea-4376-acbd-095054825d11")
     # Check the ID
     assert result.id == UUID("1479de31-ed05-4461-8333-becd76a2254a")
-    assert result.start_processing_at is not None
-    assert result.start_processing_at == datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC)
-    assert result.finished_processing_at is not None
-    assert result.finished_processing_at == datetime(2023, 10, 1, 13, 0, 0, tzinfo=UTC)
