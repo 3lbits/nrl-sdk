@@ -17,6 +17,9 @@ class Status(str, Enum):
     PENDING = "pending"
     """It is pending and has not yet started."""
 
+    JOB_DATA_SPLITTING_DONE = "job_data_splitting_done"
+    """Job is pending and has not yet started."""
+
     IN_PROGRESS = "in_progress"
     """It is currently being processed."""
 
