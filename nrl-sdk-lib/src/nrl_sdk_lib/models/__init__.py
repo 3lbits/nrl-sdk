@@ -23,10 +23,11 @@ from .feature_collection import (
     PunktType,
 )
 from .geometry import LineString, Point, Polygon
-from .job import Job, JobData, JobDataType, JobOperation, JobStatus
+from .job import BatchData, Job, JobData, JobDataType, JobOperation, Status
 from .result import Result, ResultError, ResultStage, ResultStatus, ResultType
 
 __all__ = [
+    "BatchData",
     "Crs",
     "CrsProperties",
     "DatafangsMetode",
@@ -39,7 +40,6 @@ __all__ = [
     "JobData",
     "JobDataType",
     "JobOperation",
-    "JobStatus",
     "KomponentReferanse",
     "Kvalitet",
     "LineString",
@@ -61,4 +61,5 @@ __all__ = [
     "ResultStage",
     "ResultStatus",
     "ResultType",
+    "Status",
 ]
