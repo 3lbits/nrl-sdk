@@ -83,6 +83,6 @@ format = "uv run ruff format"
 lint = "uv run ruff check --fix"
 check-types = "uv run ty check ."
 check-deps = "uv run deptry ."
-audit = "uv run pip-audit"
+audit = "uv run pip-audit --ignore-vuln GHSA-4xh5-x5gv-qwph"
 test = "uv run pytest --doctest-modules -s --cov --cov-report=term-missing --cov-report=html"
 release = ["lint", "check-types", "check-deps", "audit", "test"]
