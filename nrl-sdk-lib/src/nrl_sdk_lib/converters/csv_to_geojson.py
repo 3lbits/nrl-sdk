@@ -37,6 +37,7 @@ def map_luftspenn_type(value: str | None) -> LuftspennType:
         "Ledning, høyspent": LuftspennType.høgspent,
         "Ledning, lavspent": LuftspennType.lavspent,
         "Ledning, regionalnett": LuftspennType.regional,
+        "Bardun": LuftspennType.bardun,
     }
     result = mapping.get(value)
     if result is None:
@@ -267,6 +268,7 @@ def convert_overhead_structure_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
     lyssetting = map_lighting_kind(row.get("Luftfartshinderlyssetting(NRL)"))
     merking = map_marking_kind(row.get("Luftfartshindermerking (NRL)"))
 
+    navn = row.get("Betegnelse")
     høydereferanse = None
     if row.get("Hoydereferanse (NRL)"):
         høydereferanse = (
@@ -277,6 +279,9 @@ def convert_overhead_structure_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
             else None
         )
 
+    referanse = KomponentReferanse(
+        komponentkodeverdi=row.get("ID", "")
+    ) if row.get("ID") else None
     max_height = (
         parse_float(row["Vertikalavstand meter (NRL)"], "Vertikalavstand")
         if row.get("Vertikalavstand meter (NRL)")
@@ -299,6 +304,8 @@ def convert_overhead_structure_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
             luftfartshindermerking=merking if merking is not None else None,
             høydereferanse=høydereferanse if høydereferanse is not None else None,
             vertikal_avstand=max_height if max_height is not None else None,
+            navn=navn if navn is not None else None,
+            referanse=referanse if referanse is not None else None,
         ),
     ), crs
 
@@ -308,7 +315,9 @@ def convert_guy_segments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
     komponentident = get_uuid(row, "Guy_uuid", "ID")
     feature_status = map_feature_status(row.get("Status (NRL)"))
     nøyaktighet = map_location_method(row.get("Vertikalavstand meter (NRL)"))
-
+    luftspennstype: LuftspennType = map_luftspenn_type(
+        row.get("Luftspenntype (NRL)")
+    )
     linestring, crs = create_geometry(
         [
             [row["x1"], row["y1"], row.get("z1", "")],
@@ -321,16 +330,18 @@ def convert_guy_segments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
         if row.get("ID")
         else None
     )
+    navn = row.get("Betegnelse")
 
     return Feature(
         geometry=linestring,
         properties=NrlLuftspenn(
-            luftspenn_type=LuftspennType.bardun,
+            luftspenn_type=luftspennstype,
             komponentident=komponentident,
             status=feature_status,
             verifisert_rapporteringsnøyaktighet=nøyaktighet,
             feature_type="NrlLuftspenn",
             referanse=komponentreferanse,
+            navn=navn if navn is not None else None
         ),
     ), crs
 
@@ -354,6 +365,8 @@ def convert_ac_linesegments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
     merking: LuftfartsHinderMerking | None = map_marking_kind(
         "Luftfartshindermerking(NRL)"
     )
+
+    navn = row.get("Betegnelse")
 
     linestring, crs = create_geometry(
         [
@@ -392,5 +405,6 @@ def convert_ac_linesegments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
             luftfartshinderlyssetting=lyssetting if lyssetting is not None else None,
             luftfartshindermerking=merking if merking is not None else None,
             anleggsbredde=anleggsbredde if anleggsbredde is not None else None,
+            navn=navn if navn is not None else None
         ),
     ), crs

@@ -19,57 +19,141 @@ from nrl_sdk_lib.converters.csv_to_geojson import (
     map_location_method,
     parse_float,
 )
+from nrl_sdk_lib.models import FeatureCollection, Høydereferanse  # noqa:PLC2403
 
 
 @pytest.mark.anyio
 def test_csv_to_geojson_1_mast() -> None:
     """Should create a valid geojson file from csv with 1 mast."""
     input_csv = "tests/files/1_mast.csv"
-    output_geojson = "tests/files/1_mast.geojson"
 
-    csv_to_geojson(input_csv)
+    actual_content = csv_to_geojson(input_csv)
 
-    with Path(output_geojson).open(encoding="utf-8") as f:
-        expected_content = f.read()
-
-    with Path(output_geojson).open(encoding="utf-8") as f:
-        actual_content = f.read()
-
-    assert expected_content == actual_content
+    assert len(actual_content) == 1
+    assert isinstance(actual_content[0], FeatureCollection)
+    assert actual_content[0].crs.properties.name == "EPSG:25832"
+    assert actual_content[0].features[0].geometry.coordinates == pytest.approx(
+        [585243.7955, 6544773.145]
+        , rel=1e-6)
+    assert actual_content[0].features[0].geometry.type == "Point"
+    assert actual_content[0].features[0].properties.feature_type == "NrlMast"
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .høydereferanse
+            ) == Høydereferanse.topp
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .komponentident
+            ) == uuid.UUID("fa1bf202-345c-49f0-831b-5d5a12103612")
+    assert hasattr(actual_content[0].features[0].properties, "mast_type")
+    assert actual_content[0].features[0].properties.mast_type == "lavspentmast"
+    assert actual_content[0].features[0].properties.status == "planlagtOppført"
+    assert actual_content[0].features[0].properties.navn == "LM83700"
+    assert hasattr(actual_content[0]
+            .features[0]
+            .properties
+            .referanse, "komponentkodeverdi")
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .referanse.komponentkodeverdi
+            ) == "fa1bf202-345c-49f0-831b-5d5a12103612"
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .verifisert_rapporteringsnøyaktighet) == "0"
 
 
 @pytest.mark.anyio
 def test_csv_to_geojson_1_luftspenn() -> None:
     """Should create a valid geojson file from csv with 1 luftspenn."""
     input_csv = "tests/files/1_luftspenn.csv"
-    output_geojson = "tests/files/1_luftspenn.geojson"
 
-    csv_to_geojson(input_csv)
+    actual_content = csv_to_geojson(input_csv)
 
-    with Path(output_geojson).open(encoding="utf-8") as f:
-        expected_content = f.read()
-
-    with Path(output_geojson).open(encoding="utf-8") as f:
-        actual_content = f.read()
-
-    assert expected_content == actual_content
+    assert len(actual_content) == 1
+    assert isinstance(actual_content[0], FeatureCollection)
+    assert actual_content[0].crs.properties.name == "EPSG:25832"
+    assert actual_content[0].features[0].geometry.coordinates[0] == pytest.approx(
+        [582430.5569299466,6544040.344467209]
+        , rel=1e-4
+    )
+    assert actual_content[0].features[0].geometry.coordinates[1] == pytest.approx(
+        [582087.7992964027,6544042.579778018]
+        , rel=1e-4
+    )
+    assert actual_content[0].features[0].geometry.type == "LineString"
+    assert actual_content[0].features[0].properties.feature_type == "NrlLuftspenn"
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .komponentident
+            ) == uuid.UUID("d6716fda-aac4-4229-9e2d-690a32dc5214")
+    assert hasattr(actual_content[0].features[0].properties, "luftspenn_type")
+    assert actual_content[0].features[0].properties.luftspenn_type == "lavspent"
+    assert actual_content[0].features[0].properties.status == "planlagtOppført"
+    assert hasattr(
+        actual_content[0].features[0].properties.referanse,
+        "komponentkodeverdi"
+    )
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .referanse
+            .komponentkodeverdi
+            ) == "d6716fda-aac4-4229-9e2d-690a32dc5214"
+    assert actual_content[0].features[0].properties.navn == "Luftnett"
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .verifisert_rapporteringsnøyaktighet
+            ) == "0"
 
 
 @pytest.mark.anyio
 def test_csv_to_geojson_1_bardun() -> None:
     """Should create a valid geojson file from csv with 1 bardun."""
     input_csv = "tests/files/1_bardun.csv"
-    output_geojson = "tests/files/1_bardun.geojson"
 
-    csv_to_geojson(input_csv)
+    actual_content = csv_to_geojson(input_csv)
 
-    with Path(output_geojson).open(encoding="utf-8") as f:
-        expected_content = f.read()
-
-    with Path(output_geojson).open(encoding="utf-8") as f:
-        actual_content = f.read()
-
-    assert expected_content == actual_content
+    assert len(actual_content) == 1
+    assert isinstance(actual_content[0], FeatureCollection)
+    assert actual_content[0].crs.properties.name == "EPSG:5972"
+    assert actual_content[0].features[0].geometry.coordinates[0] == pytest.approx(
+        [559404.7227,6539567.9961,0.0]
+        ,rel=1e-4
+    )
+    assert actual_content[0].features[0].geometry.coordinates[1] == pytest.approx(
+        [559419.7617,6539579.2813,0.0]
+        , rel=1e-4
+    )
+    assert actual_content[0].features[0].geometry.type == "LineString"
+    assert actual_content[0].features[0].properties.feature_type == "NrlLuftspenn"
+    assert hasattr(actual_content[0].features[0].properties, "luftspenn_type")
+    assert actual_content[0].features[0].properties.luftspenn_type == "bardun"
+    assert actual_content[0].features[0].properties.status == "eksisterende"
+    assert hasattr(
+        actual_content[0].features[0].properties.referanse,
+        "komponentkodeverdi"
+    )
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .komponentident) == uuid.UUID(
+        "0291c89b-8294-4c5c-9061-445149e68330"
+    )
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .referanse.komponentkodeverdi) == "188488519"
+    assert actual_content[0].features[0].properties.navn == "Bardunline"
+    assert (actual_content[0]
+            .features[0]
+            .properties
+            .verifisert_rapporteringsnøyaktighet) == "0"
 
 
 def test_csv_to_geojson_file_object() -> None:
