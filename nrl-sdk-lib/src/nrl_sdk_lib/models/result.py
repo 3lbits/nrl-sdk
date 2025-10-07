@@ -6,6 +6,8 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
+from nrl_sdk_lib.models import KomponentReferanse
+
 
 class ResultError(BaseModel):
     """A result error model.
@@ -15,6 +17,7 @@ class ResultError(BaseModel):
     Attributes:
         reason (str): A description of the error encountered.
         komponent_id (UUID | None): An optional identifier for the component associated with the error.
+        referanse (KomponentReferanse | None): An optional reference dictionary providing additional context about the error.
         id (UUID | None): A unique identifier for the error, automatically generated if not provided
 
     """
@@ -27,6 +30,7 @@ class ResultError(BaseModel):
 
     reason: str
     komponent_id: UUID | None = None
+    referanse: KomponentReferanse | None = None
     id: UUID | None = Field(default_factory=uuid4)
 
 
