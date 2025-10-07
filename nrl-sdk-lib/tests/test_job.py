@@ -197,6 +197,7 @@ async def test_batch_data_model_with_only_mandatory_properties() -> None:
         "batch_number": 1,
         "status": "pending",
         "content_type": "application/json",
+        "content": {"key": "value"},
         "job_id": "1cda28c1-f84c-430f-b2ce-a2297a4262b8",
         "created_at": datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC),
     }
@@ -212,7 +213,7 @@ async def test_batch_data_model_with_only_mandatory_properties() -> None:
     assert batch_data.started_at is None
     assert batch_data.finished_at is None
     assert batch_data.number_of_features is None
-    assert batch_data.content is None
+    assert batch_data.content == {"key": "value"}
 
 
 @pytest.mark.anyio
@@ -228,7 +229,7 @@ async def test_batch_data_model_with_all_properties() -> None:
         "started_at": datetime(2023, 10, 1, 12, 5, 0, tzinfo=UTC),
         "finished_at": datetime(2023, 10, 1, 12, 10, 0, tzinfo=UTC),
         "number_of_features": 100,
-        "content": b'{"type": "FeatureCollection", "features": []}',
+        "content": {"type": "FeatureCollection", "features": []},
     }
 
     batch_data = BatchData.model_validate(batch_data_dict)
@@ -242,4 +243,4 @@ async def test_batch_data_model_with_all_properties() -> None:
     assert batch_data.started_at == datetime(2023, 10, 1, 12, 5, 0, tzinfo=UTC)
     assert batch_data.finished_at == datetime(2023, 10, 1, 12, 10, 0, tzinfo=UTC)
     assert batch_data.number_of_features == 100
-    assert batch_data.content == b'{"type": "FeatureCollection", "features": []}'
+    assert batch_data.content == {"type": "FeatureCollection", "features": []}

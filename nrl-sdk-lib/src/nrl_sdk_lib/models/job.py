@@ -59,7 +59,7 @@ class BatchData(BaseModel):
     status: Status
     content_type: str
     job_id: UUID
-    content: bytes | None = None
+    content: dict
     created_at: datetime
     started_at: datetime | None = None
     finished_at: datetime | None = None
