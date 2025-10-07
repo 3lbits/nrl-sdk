@@ -5,7 +5,7 @@ from uuid import UUID
 
 import pytest
 
-from nrl_sdk_lib.models import Job, JobData, JobDataType, JobOperation
+from nrl_sdk_lib.models import BatchData, Job, JobData, JobDataType, JobOperation
 
 
 @pytest.fixture
@@ -188,3 +188,58 @@ async def test_job_model_with_cim_and_geojson() -> None:
         assert cim.content_type == "application/json"
         assert cim.content is None
         assert cim.job_id == job.id
+
+
+@pytest.mark.anyio
+async def test_batch_data_model_with_only_mandatory_properties() -> None:
+    """Should create a valid batch data object."""
+    batch_data_dict = {
+        "batch_number": 1,
+        "status": "pending",
+        "content_type": "application/json",
+        "job_id": "1cda28c1-f84c-430f-b2ce-a2297a4262b8",
+        "created_at": datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC),
+    }
+
+    batch_data = BatchData.model_validate(batch_data_dict)
+
+    assert isinstance(batch_data.id, UUID)
+    assert batch_data.batch_number == 1
+    assert batch_data.status == "pending"
+    assert batch_data.content_type == "application/json"
+    assert batch_data.job_id == UUID("1cda28c1-f84c-430f-b2ce-a2297a4262b8")
+    assert batch_data.created_at == datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC)
+    assert batch_data.started_at is None
+    assert batch_data.finished_at is None
+    assert batch_data.number_of_features is None
+    assert batch_data.content is None
+
+
+@pytest.mark.anyio
+async def test_batch_data_model_with_all_properties() -> None:
+    """Should create a valid batch data object."""
+    batch_data_dict = {
+        "id": "7c93f77d-af17-4145-86c8-e3d17a3f1541",
+        "batch_number": 1,
+        "status": "pending",
+        "content_type": "application/json",
+        "job_id": "1cda28c1-f84c-430f-b2ce-a2297a4262b8",
+        "created_at": datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC),
+        "started_at": datetime(2023, 10, 1, 12, 5, 0, tzinfo=UTC),
+        "finished_at": datetime(2023, 10, 1, 12, 10, 0, tzinfo=UTC),
+        "number_of_features": 100,
+        "content": b'{"type": "FeatureCollection", "features": []}',
+    }
+
+    batch_data = BatchData.model_validate(batch_data_dict)
+
+    assert isinstance(batch_data.id, UUID)
+    assert batch_data.batch_number == 1
+    assert batch_data.status == "pending"
+    assert batch_data.content_type == "application/json"
+    assert batch_data.job_id == UUID("1cda28c1-f84c-430f-b2ce-a2297a4262b8")
+    assert batch_data.created_at == datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC)
+    assert batch_data.started_at == datetime(2023, 10, 1, 12, 5, 0, tzinfo=UTC)
+    assert batch_data.finished_at == datetime(2023, 10, 1, 12, 10, 0, tzinfo=UTC)
+    assert batch_data.number_of_features == 100
+    assert batch_data.content == b'{"type": "FeatureCollection", "features": []}'

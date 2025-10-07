@@ -1,0 +1,19 @@
+name: 🤖🔧Run Tests for Python nrl-test-data-generator tool
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "tools/nrl-test-data-generator/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/nrl-test-data-generator/**"
+
+jobs:
+  call-tests:
+    uses: ./.github/workflows/python-tests.yaml
+    with:
+      path: "tools/nrl-test-data-generator"

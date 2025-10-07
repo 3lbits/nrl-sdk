@@ -53,11 +53,17 @@ class ResultType(str, Enum):
     Attributes:
         STRUCTURE_VALIDATION_ERRORS (str): Indicates errors related to structure validation.
         VALIDATION_EXCEPTION (str): Indicates a validation exception.
+        HTTP_MESSAGE_NOT_READABLE_EXCEPTION (str): Indicates an HTTP message not readable exception.
+        AUTHORIZATION_DENIED_EXCEPTION (str): Indicates an authorization denied exception.
+        METHOD_ARGUMENT_NOT_VALID_EXCEPTION (str): Indicates a method argument not valid exception.
 
     """
 
     STRUCTURE_VALIDATION_ERRORS = "StructureValidationErrors"
     VALIDATION_EXCEPTION = "ValidationException"
+    HTTP_MESSAGE_NOT_READABLE_EXCEPTION = "HttpMessageNotReadableException"
+    AUTHORIZATION_DENIED_EXCEPTION = "AuthorizationDeniedException"
+    METHOD_ARGUMENT_NOT_VALID_EXCEPTION = "MethodArgumentNotValidException"
 
 
 class ResultStage(int, Enum):
@@ -88,6 +94,7 @@ class Result(BaseModel):
         status (str): The status of the result, e.g., "success" or "
         stage (int): The stage of the process, typically an integer indicating the step in the workflow.
         job_id (UUID): The unique identifier of the job associated with this result.
+        batch_number (int | None): The batch number if the job was processed in batches.
         type (str | None): The type of result, if applicable.
         errors (list[ResultError] | None): A list of errors encountered during the process
             or an empty list if there are no errors.
@@ -103,7 +110,8 @@ class Result(BaseModel):
 
     status: ResultStatus
     job_id: UUID
-    type: ResultType | None = None
+    batch_number: int | None = None
+    type: ResultType | str | None = None
     stage: ResultStage | None = None
     errors: list[ResultError] | None = Field(default_factory=list)
     id: UUID | None = Field(default_factory=uuid4)

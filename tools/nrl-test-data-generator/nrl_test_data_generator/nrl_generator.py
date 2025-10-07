@@ -8,10 +8,13 @@ import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 
+import anyio
 import xlsxwriter
 
+from .generate_geojson_v2 import generate_geojson_v2
 
-def generate_files(  # noqa: PLR0913
+
+async def generate_files(  # noqa: PLR0913
     num_elements: int = 2,
     output_prefix: str = "testdata",
     status: str = "planlagtOppført",
@@ -20,6 +23,7 @@ def generate_files(  # noqa: PLR0913
     error_freq: float | None = None,
     *,
     include_errors: bool = False,
+    v2: bool = False,
 ) -> dict:
     """Generate test data files for NRL.
 
@@ -32,6 +36,7 @@ def generate_files(  # noqa: PLR0913
         error_positions (list): List of positions (1-based) where
             errors should be injected
         error_freq (float): Frequency of error injection (0.0-1.0)
+        v2 (bool): Generate GeoJSON in NRL v2 format if True, else v1
 
     Returns:
         dict: Information about the generated files
@@ -45,6 +50,7 @@ def generate_files(  # noqa: PLR0913
         include_errors=include_errors,
         error_positions=error_positions,
         error_freq=error_freq,
+        v2=v2,
     )
     output_type = f"{num_elements * 2}_elements"
 
@@ -59,14 +65,19 @@ def generate_files(  # noqa: PLR0913
 
     excel_filename = f"{output_prefix}_{output_type}{error_suffix}_{timestamp}.xlsx"
     geojson_filename = (
-        f"{output_prefix}_{output_type}{error_suffix}_{timestamp}.geojson"
+        (f"{output_prefix}_{output_type}{error_suffix}_{timestamp}.geojson")
+        if not v2
+        else f"{output_prefix}_{output_type}{error_suffix}_v2_{timestamp}.geojson"
     )
 
     # Generate the Excel file
     generate_excel(common_data, excel_filename)
 
     # Generate the GeoJSON file
-    generate_geojson(common_data, geojson_filename)
+    if v2:
+        await generate_geojson_v2(common_data, geojson_filename)
+    else:
+        generate_geojson(common_data, geojson_filename)
 
     # Generate error log file if there are errors
     error_log_file = None
@@ -75,8 +86,8 @@ def generate_files(  # noqa: PLR0913
             f"{output_prefix}_{output_type}{error_suffix}_{timestamp}_errors.txt"
         )
         error_log_file_path = Path(error_log_file)
-        with error_log_file_path.open("w") as f:
-            f.writelines(
+        async with await anyio.open_file(error_log_file_path, mode="w") as f:
+            await f.writelines(
                 f"{entry['position']} {entry['id']} {entry['error_type']} {entry['coordinates'][0]},{entry['coordinates'][1]} {entry['location']} {entry['zone']}\n"  # noqa: E501
                 for entry in common_data["error_log"]
             )
@@ -104,6 +115,7 @@ def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
     error_freq: float | None = None,
     *,
     include_errors: bool = False,
+    v2: bool = False,
 ) -> dict:
     """Generate random data for NRL test files with a wider geographical area.
 
@@ -115,6 +127,7 @@ def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
         error_positions (list): List of positions (1-based) where errors
             should be injected
         error_freq (float): Frequency of error injection (0.0-1.0)
+        v2 (bool): Generate data in NRL v2 format if True, else v1
 
     Returns:
         dict: Generated data with mast points and trase lines
@@ -313,7 +326,7 @@ def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
             "coordinates": coordinates[i],  # Using only [easting, northing]
             "status": status,
             "komponentident": f"LM{80000 + random.randint(1000, 9999)}",
-            "mastType": "Mast, lavspent",
+            "mastType": "Mast, lavspent" if not v2 else "lavspentmast",
         }
         mast_points.append(mast_point)
 
@@ -367,7 +380,7 @@ def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
                 "coordinates": [start_point["coordinates"], end_point["coordinates"]],
                 "status": status,
                 "komponentident": f"LL{70000 + random.randint(1000, 9999)}",
-                "luftspennType": "Ledning, lavspent",
+                "luftspennType": "Ledning, lavspent" if not v2 else "lavspent",
             }
             trase_lines.append(trase_line)
 
@@ -388,7 +401,7 @@ def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
                 "coordinates": [start_point["coordinates"], end_point["coordinates"]],
                 "status": status,
                 "komponentident": f"LL{70000 + random.randint(1000, 9999)}",
-                "luftspennType": "Ledning, lavspent",
+                "luftspennType": "Ledning, lavspent" if not v2 else "lavspent",
             }
             trase_lines.append(trase_line)
 
@@ -407,7 +420,7 @@ def generate_random_data(  # noqa: C901, PLR0912, PLR0913, PLR0915
                 "coordinates": [start_coords, end_coords],
                 "status": status,
                 "komponentident": f"LL{70000 + random.randint(1000, 9999)}",
-                "luftspennType": "Ledning, lavspent",
+                "luftspennType": "Ledning, lavspent" if not v2 else "lavspent",
             }
             trase_lines.append(trase_line)
 

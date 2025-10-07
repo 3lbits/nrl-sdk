@@ -1,13 +1,21 @@
 [project]
 name = "nrl-test-data-generator"
-version = "0.2.1"
+version = "0.3.1"
 description = "A utility for generating test data for the NRL (Nasjonalt Register over Luftfartshindre) project."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "anyio>=4.10.0",
     "click>=8.2.1",
+    "nrl-sdk-lib>=0.1.23",
     "xlsxwriter>=3.1.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/3lbits/nrl-sdk"
+Documentation = "https://3lbits.github.io/nrl-sdk/"
+Repository = "https://github.com/3lbits/nrl-sdk.git"
+Issues = "https://github.com/3lbits/nrl-sdk/issues"
 
 [tool.uv]
 package = true
@@ -69,5 +77,5 @@ lint = "uv run ruff check --fix"
 check-types = "uv run ty check ."
 check-deps = "uv run deptry ."
 audit = "uv run pip-audit ."
-"test" = "uv run pytest -v --cov=nrl_test_data_generator tests/ --cov-report=term-missing --cov-report=html"
+test = "uv run pytest -v --cov=nrl_test_data_generator tests/ --cov-report=term-missing --cov-report=html"
 release = ["lint",  "check-types", "check-deps", "audit", "test"]
