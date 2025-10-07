@@ -111,7 +111,7 @@ class Result(BaseModel):
     status: ResultStatus
     job_id: UUID
     batch_number: int | None = None
-    type: ResultType | None = None
+    type: ResultType | str | None = None
     stage: ResultStage | None = None
     errors: list[ResultError] | None = Field(default_factory=list)
     id: UUID | None = Field(default_factory=uuid4)

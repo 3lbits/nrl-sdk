@@ -74,3 +74,41 @@ async def test_result_model_with_errors() -> None:
     assert result.errors[1].komponent_id == UUID("4e2baa5f-80ea-4376-acbd-095054825d11")
     # Check the ID
     assert result.id == UUID("1479de31-ed05-4461-8333-becd76a2254a")
+
+
+@pytest.mark.anyio
+async def test_result_model_with_errors_unknown_type() -> None:
+    """Should create a valid result object with errors."""
+    result_data = {
+        "status": "failure",
+        "stage": 2,
+        "job_id": "e4000512-fa93-4a35-882b-c665a8150a1d",
+        "batch_number": 1,
+        "type": "UnknownType",
+        "errors": [
+            {
+                "reason": "Invalid data format",
+                "komponent_id": "4e2baa5f-80ea-4376-acbd-095054825d11",
+            },
+            {
+                "reason": "Missing required field",
+                "komponent_id": "4e2baa5f-80ea-4376-acbd-095054825d11",
+            },
+        ],
+        "id": "1479de31-ed05-4461-8333-becd76a2254a",
+    }
+
+    result = Result.model_validate(result_data)
+    assert result.status == ResultStatus.FAILURE
+    assert result.type == "UnknownType"
+    assert result.stage == ResultStage.OWNERSHIP
+    assert result.job_id == UUID("e4000512-fa93-4a35-882b-c665a8150a1d")
+    assert result.batch_number == 1
+    assert result.errors is not None
+    assert len(result.errors) == 2
+    assert result.errors[0].reason == "Invalid data format"
+    assert result.errors[0].komponent_id == UUID("4e2baa5f-80ea-4376-acbd-095054825d11")
+    assert result.errors[1].reason == "Missing required field"
+    assert result.errors[1].komponent_id == UUID("4e2baa5f-80ea-4376-acbd-095054825d11")
+    # Check the ID
+    assert result.id == UUID("1479de31-ed05-4461-8333-becd76a2254a")
