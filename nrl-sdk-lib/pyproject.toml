@@ -20,6 +20,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/nrl_sdk_lib"]
 
+[tool.deptry]
+known_first_party = ["nrl_sdk_lib"]
+
 [dependency-groups]
 dev = [
     "anyio>=4.9.0",
@@ -58,6 +61,7 @@ ignore = [
     "BLE001",  # Catch blind exception in tests should be allowed
     "PLR2004", # Magic values allowed in tests
 ]
+
 
 [tool.ruff.lint.isort]
 # so it knows to group first-party stuff last

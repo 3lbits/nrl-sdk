@@ -11,11 +11,12 @@ from unittest.mock import patch
 import pytest
 
 from nrl_sdk_lib.converters.csv_to_geojson import (
-    FEATURE_STATUS_MAP,
     create_geometry,
     csv_to_geojson,
     get_uuid,
-    map_value,
+    map_feature_status,
+    map_lighting_kind,
+    map_location_method,
     parse_float,
 )
 
@@ -192,29 +193,32 @@ def test_create_geometry_invalid_coords() -> None:
         create_geometry(coords, is_line=True)
 
 
-def test_map_value_valid() -> None:
+def test_map_feature_status_valid() -> None:
     """Test mapping valid value."""
-    result = map_value("Eksisterende", FEATURE_STATUS_MAP, "Status")
+    result = map_feature_status("Eksisterende")
     assert result is not None
 
-
-def test_map_value_missing() -> None:
+def test_map_feature_status_missing() -> None:
     """Test mapping with missing value."""
-    with pytest.raises(ValueError, match="Missing Status"):
-        map_value("", FEATURE_STATUS_MAP, "Status", allow_none=False)
+    with pytest.raises(ValueError, match="Unknown Status"):
+        map_feature_status("")
 
-
-def test_map_value_unknown() -> None:
+def test_map_feature_status_unknown() -> None:
     """Test mapping with unknown value."""
     with pytest.raises(ValueError, match="Unknown Status"):
-        map_value("InvalidStatus", FEATURE_STATUS_MAP, "Status", allow_none=False)
+        map_feature_status("InvalidStatus")
 
-
-def test_map_value_allow_none() -> None:
-    """Test mapping with allow_none=True."""
-    result = map_value("", FEATURE_STATUS_MAP, "Status", allow_none=True)
+def test_map_lighting_kind_allow_none() -> None:
+    """Test mapping with allow_none (returns None for empty value)."""
+    result = map_lighting_kind("")
     assert result is None
 
+def test_map_location_kind() -> None:
+    """Test both location kinds."""
+    result = map_location_method("FOR-2020-10-16-2068, §5(1)")
+    assert result == "20230101_5-1"
+    result = map_location_method("Some other value")
+    assert result == "0"
 
 def create_test_csv(content: list[dict], filename: str | None) -> str | None:
     """Create a temporary CSV file."""
@@ -267,7 +271,7 @@ def test_csv_missing_status() -> None:
 
     filename = create_test_csv(content, filename=None)
 
-    with pytest.raises(ValueError, match="Missing Status"):
+    with pytest.raises(ValueError, match="Unknown Status:"):
         csv_to_geojson(filename)
 
 def test_no_tabell_id() -> None:

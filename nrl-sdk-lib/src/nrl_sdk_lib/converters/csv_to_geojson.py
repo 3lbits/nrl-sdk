@@ -5,7 +5,7 @@ import logging
 import sys
 import uuid
 from pathlib import Path
-from typing import IO, Any, Literal, cast
+from typing import IO, Literal
 
 from nrl_sdk_lib.models import (
     Crs,
@@ -30,50 +30,83 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Mapping dictionaries
-LUFTSPENN_TYPE_MAP = {
-    "Ledning, høyspent": LuftspennType.høgspent,
-    "Ledning, lavspent": LuftspennType.lavspent,
-    "Ledning, regionalnett": LuftspennType.regional,
-}
 
-MAST_TYPE_MAP = {
-    "Mast, høyspent": MastType.høgspentmast,
-    "Mast, lavspent": MastType.lavspentmast,
-    "Mast, regionalnett": MastType.regionalmast,
-}
+def map_luftspenn_type(value: str | None) -> LuftspennType:
+    """Map CSV value to LuftspennType."""
+    mapping = {
+        "Ledning, høyspent": LuftspennType.høgspent,
+        "Ledning, lavspent": LuftspennType.lavspent,
+        "Ledning, regionalnett": LuftspennType.regional,
+    }
+    result = mapping.get(value)
+    if result is None:
+        msg = f"Unknown Luftspenntype: {value}"
+        raise ValueError(msg)
+    return result
 
-FEATURE_STATUS_MAP = {
-    "Eksisterende": FeatureStatus.eksisterende,
-    "Planlagt oppført": FeatureStatus.planlagt_oppført,
-    "Planlagt fjernet": FeatureStatus.planlagt_fjernet,
-    "Fjernet": FeatureStatus.fjernet,
-    "planlagtOppført": FeatureStatus.planlagt_oppført,
-    "planlagtFjernet": FeatureStatus.planlagt_fjernet,
-    "eksisterende": FeatureStatus.eksisterende,
-    "fjernet": FeatureStatus.fjernet,
-}
+def map_mast_type(value: str | None) -> MastType:
+    """Map CSV value to MastType."""
+    mapping = {
+        "Mast, høyspent": MastType.høgspentmast,
+        "Mast, lavspent": MastType.lavspentmast,
+        "Mast, regionalnett": MastType.regionalmast,
+    }
+    result = mapping.get(value)
+    if result is None:
+        msg = f"Unknown Masttype: {value}"
+        raise ValueError(msg)
+    return result
 
-LIGHTING_KIND_MAP = {
-    "Lyssatt": LuftfartsHinderLyssetting.lyssatt,
-    "Mellomintensitet, type A": LuftfartsHinderLyssetting.mellomintensitet_type_a,
-    "Mellomintensitet, type B": LuftfartsHinderLyssetting.mellomintensitet_type_b,
-    "Mellomintensitet, type C": LuftfartsHinderLyssetting.mellomintensitet_type_c,
-    "Lavintensitet, type A": LuftfartsHinderLyssetting.lavintensitet_type_a,
-    "Lavintensitet, type B": LuftfartsHinderLyssetting.lavintensitet_type_b,
-    "Høyintensitet, type A": LuftfartsHinderLyssetting.høyintensitet_type_a,
-    "Høyintensitet, type B": LuftfartsHinderLyssetting.høyintensitet_type_b,
-}
+def map_feature_status(value: str | None) -> FeatureStatus:
+    """Map CSV value to FeatureStatus."""
+    mapping = {
+        "Eksisterende": FeatureStatus.eksisterende,
+        "eksisterende": FeatureStatus.eksisterende,
+        "Planlagt oppført": FeatureStatus.planlagt_oppført,
+        "planlagtOppført": FeatureStatus.planlagt_oppført,
+        "Planlagt fjernet": FeatureStatus.planlagt_fjernet,
+        "planlagtFjernet": FeatureStatus.planlagt_fjernet,
+        "Fjernet": FeatureStatus.fjernet,
+        "fjernet": FeatureStatus.fjernet,
+    }
+    result = mapping.get(value)
+    if result is None:
+        msg = f"Unknown Status: {value}"
+        raise ValueError(msg)
+    return result
 
-MARKING_KIND_MAP = {
-    "Fargemerking": LuftfartsHinderMerking.fargermerking,
-    "Markør": LuftfartsHinderMerking.markør,
-}
+def map_lighting_kind(value: str | None) -> LuftfartsHinderLyssetting | None:
+    """Map CSV value to LuftfartsHinderLyssetting (optional)."""
+    mapping = {
+        "Lyssatt": LuftfartsHinderLyssetting.lyssatt,
+        "Mellomintensitet, type A": LuftfartsHinderLyssetting.mellomintensitet_type_a,
+        "Mellomintensitet, type B": LuftfartsHinderLyssetting.mellomintensitet_type_b,
+        "Mellomintensitet, type C": LuftfartsHinderLyssetting.mellomintensitet_type_c,
+        "Lavintensitet, type A": LuftfartsHinderLyssetting.lavintensitet_type_a,
+        "Lavintensitet, type B": LuftfartsHinderLyssetting.lavintensitet_type_b,
+        "Høyintensitet, type A": LuftfartsHinderLyssetting.høyintensitet_type_a,
+        "Høyintensitet, type B": LuftfartsHinderLyssetting.høyintensitet_type_b,
+    }
+    if not value:
+        return None
+    return mapping.get(value)
 
-LOCATION_METHOD_MAP = {
-    "FOR-2020-10-16-2068, §5(1)": "20230101_5-1",
-}
 
+def map_marking_kind(value: str | None) -> LuftfartsHinderMerking | None:
+    """Map CSV value to LuftfartsHinderMerking (optional)."""
+    mapping = {
+        "Fargemerking": LuftfartsHinderMerking.fargermerking,
+        "Markør": LuftfartsHinderMerking.markør,
+    }
+    if not value:
+        return None
+    return mapping.get(value)
+
+def map_location_method(value: str | None) -> Literal["20230101_5-1", "0"]:
+    """Map CSV value to location method string."""
+    if value == "FOR-2020-10-16-2068, §5(1)":
+        return "20230101_5-1"
+    return "0"
 
 def csv_to_geojson(file: str | Path | IO[str] | None = None) -> list[FeatureCollection]:
     """Convert CSV file to GeoJSON FeatureCollections grouped by CRS.
@@ -224,48 +257,15 @@ def create_geometry(
 
     return geometry, crs
 
-
-def map_value(
-        value: str | None,
-        mapping: dict,
-        field_name: str,
-        *,
-        allow_none: bool = False) -> Any: # noqa: ANN401
-    """Map a value using a dictionary with error handling."""
-    if not value:
-        if allow_none:
-            return None
-        msg = f"Missing {field_name}"
-        raise ValueError(msg)
-
-    result = mapping.get(value)
-    if result is None and not allow_none:
-        msg = f"Unknown {field_name}: {value}"
-        raise ValueError(msg)
-    return result
-
-
 def convert_overhead_structure_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
     """Convert overhead structure (mast) rows to NrlMast feature."""
     komponentident = get_uuid(row, "OverheadStructure_uuid", "ID")
-    masttype = map_value(row.get("Masttype (NRL)"), MAST_TYPE_MAP, "Masttype")
-    feature_status = map_value(row.get("Status (NRL)"), FEATURE_STATUS_MAP, "Status")
-    nøyaktighet = LOCATION_METHOD_MAP.get(
-        row.get("Verifisert nøyaktighet (NRL)", ""), "0"
-    )
+    masttype = map_mast_type(row.get("Masttype (NRL)"))
+    feature_status = map_feature_status(row.get("Status (NRL)"))
+    nøyaktighet = map_location_method(row.get("Verifisert nøyaktighet (NRL)"))
 
-    lyssetting = map_value(
-        row.get("Luftfartshinderlyssetting(NRL)", ""),
-        LIGHTING_KIND_MAP,
-        "Lighting",
-        allow_none=True,
-    )
-    merking = map_value(
-        row.get("Luftfartshindermerking (NRL)", ""),
-        MARKING_KIND_MAP,
-        "Marking",
-        allow_none=True,
-    )
+    lyssetting = map_lighting_kind(row.get("Luftfartshinderlyssetting(NRL)"))
+    merking = map_marking_kind(row.get("Luftfartshindermerking (NRL)"))
 
     høydereferanse = None
     if row.get("Hoydereferanse (NRL)"):
@@ -305,11 +305,9 @@ def convert_overhead_structure_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
 
 def convert_guy_segments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
     """Convert guy wire segments to NrlLuftspenn feature."""
-    komponentident = get_uuid(row, "Guy_uuid")
-    feature_status = map_value(row.get("Status (NRL)"), FEATURE_STATUS_MAP, "Status")
-    nøyaktighet = LOCATION_METHOD_MAP.get(
-        row.get("Verifisert nøyaktighet (NRL)", ""), "0"
-    )
+    komponentident = get_uuid(row, "Guy_uuid", "ID")
+    feature_status = map_feature_status(row.get("Status (NRL)"))
+    nøyaktighet = map_location_method(row.get("Vertikalavstand meter (NRL)"))
 
     linestring, crs = create_geometry(
         [
@@ -340,28 +338,21 @@ def convert_guy_segments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
 def convert_ac_linesegments_rows(row: dict[str, str]) -> tuple[Feature, Crs]:
     """Convert AC line segments to NrlLuftspenn feature."""
     komponentident = get_uuid(row, "ACLineSegmentSpan_uuid", "ID")
-    feature_status = map_value(row.get("Status (NRL)"), FEATURE_STATUS_MAP, "Status")
-    luftspennstype = map_value(
-        row.get("Luftspenntype (NRL)"), LUFTSPENN_TYPE_MAP, "Luftspenntype"
-    )
-    nøyaktighet_str = LOCATION_METHOD_MAP.get(
-        row.get("Verifisert nøyaktighet (NRL)", ""), "0"
-    )
-    nøyaktighet: Literal["20230101_5-1", "0"] = cast(
-        "Literal['20230101_5-1', '0']", nøyaktighet_str
+    feature_status = map_feature_status(row.get("Status (NRL)"))
+    luftspennstype: LuftspennType = map_luftspenn_type(
+        row.get("Luftspenntype (NRL)")
     )
 
-    lyssetting = map_value(
-        row.get("Luftfartshinderlyssetting(NRL)", ""),
-        LIGHTING_KIND_MAP,
-        "Lighting",
-        allow_none=True,
+    nøyaktighet: Literal["20230101_5-1","0"] = map_location_method(
+            row.get("Verifisert nøyaktighet (NRL)"
+        )
     )
-    merking = map_value(
-        row.get("Luftfartshindermerking (NRL)", ""),
-        MARKING_KIND_MAP,
-        "Marking",
-        allow_none=True,
+
+    lyssetting: LuftfartsHinderLyssetting | None = map_lighting_kind(
+        "Luftfartshinderlyssetting(NRL)"
+    )
+    merking: LuftfartsHinderMerking | None = map_marking_kind(
+        "Luftfartshindermerking(NRL)"
     )
 
     linestring, crs = create_geometry(
