@@ -53,11 +53,17 @@ class ResultType(str, Enum):
     Attributes:
         STRUCTURE_VALIDATION_ERRORS (str): Indicates errors related to structure validation.
         VALIDATION_EXCEPTION (str): Indicates a validation exception.
+        HTTP_MESSAGE_NOT_READABLE_EXCEPTION (str): Indicates an HTTP message not readable exception.
+        AUTHORIZATION_DENIED_EXCEPTION (str): Indicates an authorization denied exception.
+        METHOD_ARGUMENT_NOT_VALID_EXCEPTION (str): Indicates a method argument not valid exception.
 
     """
 
     STRUCTURE_VALIDATION_ERRORS = "StructureValidationErrors"
     VALIDATION_EXCEPTION = "ValidationException"
+    HTTP_MESSAGE_NOT_READABLE_EXCEPTION = "HttpMessageNotReadableException"
+    AUTHORIZATION_DENIED_EXCEPTION = "AuthorizationDeniedException"
+    METHOD_ARGUMENT_NOT_VALID_EXCEPTION = "MethodArgumentNotValidException"
 
 
 class ResultStage(int, Enum):
