@@ -5,7 +5,14 @@ from uuid import UUID
 
 import pytest
 
-from nrl_sdk_lib.models import BatchData, Job, JobData, JobDataType, JobOperation
+from nrl_sdk_lib.models import (
+    BatchDataFull,
+    BatchDataLite,
+    Job,
+    JobData,
+    JobDataType,
+    JobOperation,
+)
 
 
 @pytest.fixture
@@ -202,7 +209,7 @@ async def test_batch_data_model_with_only_mandatory_properties() -> None:
         "created_at": datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC),
     }
 
-    batch_data = BatchData.model_validate(batch_data_dict)
+    batch_data = BatchDataLite.model_validate(batch_data_dict)
 
     assert isinstance(batch_data.id, UUID)
     assert batch_data.batch_number == 1
@@ -213,7 +220,7 @@ async def test_batch_data_model_with_only_mandatory_properties() -> None:
     assert batch_data.started_at is None
     assert batch_data.finished_at is None
     assert batch_data.number_of_features is None
-    assert batch_data.content == {"key": "value"}
+    assert hasattr(batch_data, "content") is False
 
 
 @pytest.mark.anyio
@@ -232,7 +239,7 @@ async def test_batch_data_model_with_all_properties() -> None:
         "content": {"type": "FeatureCollection", "features": []},
     }
 
-    batch_data = BatchData.model_validate(batch_data_dict)
+    batch_data = BatchDataFull.model_validate(batch_data_dict)
 
     assert isinstance(batch_data.id, UUID)
     assert batch_data.batch_number == 1

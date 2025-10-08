@@ -23,11 +23,20 @@ from .feature_collection import (
     PunktType,
 )
 from .geometry import LineString, Point, Polygon
-from .job import BatchData, Job, JobData, JobDataType, JobOperation, Status
+from .job import (
+    BatchDataFull,
+    BatchDataLite,
+    Job,
+    JobData,
+    JobDataType,
+    JobOperation,
+    Status,
+)
 from .result import Result, ResultError, ResultStage, ResultStatus, ResultType
 
 __all__ = [
-    "BatchData",
+    "BatchDataFull",
+    "BatchDataLite",
     "Crs",
     "CrsProperties",
     "DatafangsMetode",

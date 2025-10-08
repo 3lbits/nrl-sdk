@@ -30,7 +30,7 @@ class Status(str, Enum):
     """It has failed during processing."""
 
 
-class BatchData(BaseModel):
+class BatchDataLite(BaseModel):
     """A batch data model for storing the data related to a batch.
 
     The batch data model represents the data associated with a batch, including its content type and the actual content.
@@ -40,7 +40,6 @@ class BatchData(BaseModel):
         status (Status): Current status of the batch.
         content_type (str): Type of content being stored (e.g., "application/json").
         job_id (UUID): Identifier for the job associated with this batch.
-        content (bytes): The actual content data in bytes.
         created_at (datetime): Timestamp when the batch was created.
         started_at (datetime | None): Timestamp when the batch became in progress.
         finished_at (datetime | None): Timestamp when the batch finished.
@@ -60,11 +59,29 @@ class BatchData(BaseModel):
     content_type: str
     job_id: UUID
     created_at: datetime
-    content: dict | None = None
     started_at: datetime | None = None
     finished_at: datetime | None = None
     number_of_features: int | None = None
     id: UUID | None = Field(default_factory=uuid4)
+
+
+class BatchDataFull(BatchDataLite):
+    """A full batch data model for storing the data related to a batch.
+
+    Include the actual content in addition to the metadata.
+
+    Attributes:
+        content (bytes): The actual content data in bytes.
+
+    """
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        alias_generator=to_camel,
+        populate_by_name=True,
+    )
+
+    content: dict
 
 
 class JobOperation(str, Enum):
