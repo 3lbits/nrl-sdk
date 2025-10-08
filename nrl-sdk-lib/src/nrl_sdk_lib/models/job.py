@@ -34,13 +34,13 @@ class BatchDataLite(BaseModel):
 
     Attributes:
         batch_number (int): The sequence number of the batch.
+        number_of_features (int): Number of features in the batch.
         status (Status): Current status of the batch.
         content_type (str): Type of content being stored (e.g., "application/json").
         job_id (UUID): Identifier for the job associated with this batch.
         created_at (datetime): Timestamp when the batch was created.
         started_at (datetime | None): Timestamp when the batch became in progress.
         finished_at (datetime | None): Timestamp when the batch finished.
-        number_of_features (int | None): Number of features in the batch.
         id (UUID): Unique identifier for the batch data.
 
     """
@@ -52,13 +52,13 @@ class BatchDataLite(BaseModel):
     )
 
     batch_number: int
+    number_of_features: int
     status: Status
     content_type: str
     job_id: UUID
     created_at: datetime
     started_at: datetime | None = None
     finished_at: datetime | None = None
-    number_of_features: int | None = None
     id: UUID | None = Field(default_factory=uuid4)
 
 

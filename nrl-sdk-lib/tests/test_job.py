@@ -202,6 +202,7 @@ async def test_batch_data_model_with_only_mandatory_properties() -> None:
     """Should create a valid batch data object."""
     batch_data_dict = {
         "batch_number": 1,
+        "number_of_features": 1,
         "status": "pending",
         "content_type": "application/json",
         "content": {"key": "value"},
@@ -217,9 +218,9 @@ async def test_batch_data_model_with_only_mandatory_properties() -> None:
     assert batch_data.content_type == "application/json"
     assert batch_data.job_id == UUID("1cda28c1-f84c-430f-b2ce-a2297a4262b8")
     assert batch_data.created_at == datetime(2023, 10, 1, 12, 0, 0, tzinfo=UTC)
+    assert batch_data.number_of_features == 1
     assert batch_data.started_at is None
     assert batch_data.finished_at is None
-    assert batch_data.number_of_features is None
     assert hasattr(batch_data, "content") is False
 
 
