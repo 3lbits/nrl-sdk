@@ -1,5 +1,7 @@
 # nrl-sdk
 
+Elbits is sunsetting its nrl-project, so this repository is now archived.
+
 ## Tools
 
 In this repository, you will also find tools to help you with the NRL SDK.
